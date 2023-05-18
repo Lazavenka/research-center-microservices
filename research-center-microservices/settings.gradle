@@ -1,0 +1,6 @@
+rootProject.name = 'research-center-microservices'
+include 'research-center-service'
+include 'schedule-service'
+
+
+
