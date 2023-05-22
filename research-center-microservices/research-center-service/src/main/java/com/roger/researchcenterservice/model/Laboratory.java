@@ -8,18 +8,17 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.List;
+
 @Entity
-@Table(name = "laboratory", schema = "research_center")
+@Table(name = "laboratory")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Laboratory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
-    private long id;
+public class Laboratory extends CustomEntity{
+
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -35,4 +34,7 @@ public class Laboratory {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Department department;
+
+    @OneToMany(mappedBy = "laboratory")
+    private List<Equipment> equipment;
 }

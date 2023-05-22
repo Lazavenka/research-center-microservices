@@ -1,4 +1,4 @@
 package com.roger.researchcenterservice.model;
 
-public class User {
+public class User extends CustomEntity{
 }

@@ -6,17 +6,13 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "laboratory", schema = "research_center")
+@Table(name = "department")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Department {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
-    private long id;
+public class Department extends CustomEntity{
     private String name;
     private String description;
     private String address;

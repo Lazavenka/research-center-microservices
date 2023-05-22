@@ -1,9 +1,16 @@
 package com.roger.researchcenterservice.service;
 
-import com.roger.researchcenterservice.dto.EquipmentRequest;
-import com.roger.researchcenterservice.dto.EquipmentResponse;
+import com.roger.researchcenterservice.dto.EquipmentSaveDto;
+import com.roger.researchcenterservice.dto.EquipmentGetDto;
+import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
+import com.roger.researchcenterservice.mapper.EquipmentStructMapper;
+import com.roger.researchcenterservice.mapper.EquipmentTypeStructMapper;
 import com.roger.researchcenterservice.model.Equipment;
+import com.roger.researchcenterservice.model.EquipmentType;
+import com.roger.researchcenterservice.model.Laboratory;
 import com.roger.researchcenterservice.repository.EquipmentRepository;
+import com.roger.researchcenterservice.repository.EquipmentTypeRepository;
+import com.roger.researchcenterservice.repository.LaboratoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,52 +19,65 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-
 public class EquipmentService {
 
     private final EquipmentRepository equipmentRepository;
+    private final LaboratoryRepository laboratoryRepository;
+    private final EquipmentTypeRepository equipmentTypeRepository;
 
-    public Long createEquipment(EquipmentRequest equipmentRequest){
-        String equipmentName = equipmentRequest.getName();
+    public EquipmentGetDto create(EquipmentSaveDto saveDto){
+        String equipmentName = saveDto.getName();
         Optional<Equipment> optionalEquipment = equipmentRepository.findByName(equipmentName);
         if (optionalEquipment.isPresent()){
             throw new RuntimeException("EQUIPMENT IS PRESENT"); //todo make custom exception
         }
-        Equipment equipment = requestToEntity(equipmentRequest);
-        return equipmentRepository.saveAndFlush(equipment).getId();
+        EquipmentStructMapper mapper = EquipmentStructMapper.INSTANCE;
+        Equipment equipment = mapper.saveDtoToEntity(saveDto);
+        Laboratory laboratory = laboratoryRepository.getReferenceById(saveDto.getLaboratoryId());
+        equipment.setLaboratory(laboratory);
+        EquipmentType equipmentType = equipmentTypeRepository.getReferenceById(saveDto.getEquipmentTypeId());
+        equipment.setEquipmentType(equipmentType);
+        return mapper.toEquipmentGetDto(equipmentRepository.saveAndFlush(equipment));
     }
 
-    public List<EquipmentResponse> getAllEquipment() {
-        return equipmentRepository.findAll().stream().map(this::entityToResponse).toList();
+    public EquipmentGetDto getById(Long id){
+        return EquipmentStructMapper.INSTANCE
+                .toEquipmentGetDto(equipmentRepository.getReferenceById(id));
     }
 
-    public EquipmentResponse getById(Long id) {
-        return entityToResponse(equipmentRepository.getReferenceById(id));
+    public List<EquipmentGetDto> getAll(){
+        return EquipmentStructMapper.INSTANCE
+                .toListEquipmentGetDto(equipmentRepository.findAll());
     }
 
-    private EquipmentResponse entityToResponse(Equipment entity){
-        return EquipmentResponse.builder()
-                .id(String.valueOf(entity.getId()))
-                .name(entity.getName())
-                .description(entity.getDescription())
-                .imageFilePath(entity.getImageFilePath())
-                .equipmentTypeId(entity.getEquipmentTypeId())
-                .laboratoryId(entity.getLaboratoryId())
-                .isNeedAssistant(entity.isNeedAssistant())
-                .averageResearchTime(entity.getAverageResearchTime())
-                .pricePerHour(entity.getPricePerHour())
-                .build();
+    public EquipmentGetDto update(EquipmentUpdateDto dtoEntity, Long id) {
+        Equipment equipment = equipmentRepository.getReferenceById(id);
+        if (equipment.getLaboratory().getId() != dtoEntity.getLaboratoryId()){
+            Laboratory newLaboratory = laboratoryRepository.getReferenceById(dtoEntity.getLaboratoryId());
+            equipment.setLaboratory(newLaboratory);
+        }
+        if (equipment.getEquipmentType().getId() != dtoEntity.getEquipmentTypeId()){
+            EquipmentType newEquipmentType = equipmentTypeRepository.getReferenceById(dtoEntity.getEquipmentTypeId());
+            equipment.setEquipmentType(newEquipmentType);
+        }
+        equipment.setName(dtoEntity.getName());
+        equipment.setDescription(dtoEntity.getDescription());
+        equipment.setAverageResearchTime(dtoEntity.getAverageResearchTime());
+        equipment.setPricePerHour(dtoEntity.getPricePerHour());
+        equipment.setNeedAssistant(dtoEntity.isNeedAssistant());
+        equipment.setState(dtoEntity.getState());
+
+        return EquipmentStructMapper.INSTANCE
+                .toEquipmentGetDto(equipmentRepository.saveAndFlush(equipment));
     }
-    private Equipment requestToEntity(EquipmentRequest request){
-        return Equipment.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .equipmentTypeId(request.getEquipmentTypeId())
-                .laboratoryId(request.getLaboratoryId())
-                .isNeedAssistant(request.isNeedAssistant())
-                .state(request.getState())
-                .pricePerHour(request.getPricePerHour())
-                .averageResearchTime(request.getAverageResearchTime())
-                .build();
+
+    public void deleteById(long id){
+        equipmentRepository.deleteById(id);
     }
+
+    public List<EquipmentGetDto> getByLaboratoryId(Long laboratoryId){
+        return EquipmentStructMapper.INSTANCE
+                .toListEquipmentGetDto(equipmentRepository.getEquipmentByLaboratoryId(laboratoryId));
+    }
+
 }

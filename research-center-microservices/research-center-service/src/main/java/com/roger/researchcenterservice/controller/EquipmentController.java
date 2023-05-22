@@ -1,33 +1,50 @@
 package com.roger.researchcenterservice.controller;
 
-import com.roger.researchcenterservice.dto.EquipmentRequest;
-import com.roger.researchcenterservice.dto.EquipmentResponse;
+import com.roger.researchcenterservice.dto.EquipmentSaveDto;
+import com.roger.researchcenterservice.dto.EquipmentGetDto;
+import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
 import com.roger.researchcenterservice.service.EquipmentService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/equipment")
+@RequestMapping("/api/v1")
 @AllArgsConstructor
 public class EquipmentController {
 
     private final EquipmentService equipmentService;
 
-    @PostMapping
-    public String createEquipment(@RequestBody EquipmentRequest equipmentDto){
-        Long equipmentId = equipmentService.createEquipment(equipmentDto);
-        return "Created successfully id = " + equipmentId;
+    @PostMapping(value = "/equipment")
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public EquipmentGetDto createEquipment(@RequestBody EquipmentSaveDto equipmentDto){
+        return equipmentService.create(equipmentDto);
+    }
+    @DeleteMapping(value = "/equipment/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id){
+        equipmentService.deleteById(id);
     }
 
-    @GetMapping
-    public List<EquipmentResponse> getAll(){
-        return equipmentService.getAllEquipment();
+    @GetMapping(value = "/equipment")
+    public List<EquipmentGetDto> getAll(){
+        return equipmentService.getAll();
     }
 
-    @GetMapping(value = "{id}")
-    public EquipmentResponse getById(@PathVariable Long id){
+    @GetMapping(value = "/equipment/{id}")
+    public EquipmentGetDto getById(@PathVariable Long id){
         return equipmentService.getById(id);
     }
+
+    @GetMapping(value = "/laboratories/{id}/equipment")
+    public List<EquipmentGetDto> getEquipmentByLaboratoryId(@PathVariable Long id){
+        return equipmentService.getByLaboratoryId(id);
+    }
+    @PutMapping(value = "/equipment/{id}")
+    public EquipmentGetDto update(@RequestBody EquipmentUpdateDto updateDto, @PathVariable Long id){
+        return equipmentService.update(updateDto, id);
+    }
+
 }
