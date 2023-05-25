@@ -8,6 +8,7 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.5.5.Final/897f6f115930b936287bef552bf5fe28cc64717d/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
+        <module name="research-center-microservices.order-service.main" />
         <module name="research-center-microservices.research-center-service.main" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
@@ -16,7 +17,16 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
         </processorPath>
         <module name="research-center-microservices.main" />
+        <module name="research-center-microservices.schedule-service.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="com.roger.research-center-microservices" target="17" />
+      <module name="com.roger.research-center-microservices.main" target="17" />
+      <module name="com.roger.research-center-microservices.test" target="17" />
+      <module name="research-center-service" target="17" />
+      <module name="research-center-service.main" target="17" />
+      <module name="research-center-service.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

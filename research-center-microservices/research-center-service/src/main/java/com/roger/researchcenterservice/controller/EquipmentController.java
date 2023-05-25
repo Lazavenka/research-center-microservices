@@ -4,6 +4,7 @@ import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.dto.EquipmentGetDto;
 import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
 import com.roger.researchcenterservice.service.EquipmentService;
+import com.roger.researchcenterservice.service.impl.EquipmentServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
