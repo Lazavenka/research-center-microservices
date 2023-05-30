@@ -6,6 +6,7 @@ import by.roger.scheduleservice.model.EquipmentTimeTable;
 import by.roger.scheduleservice.model.Order;
 import by.roger.scheduleservice.service.TimeTableService;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -21,11 +22,8 @@ public class ScheduleController {
 
     @GetMapping(value = "/equipment/{equipmentId}/schedule")
     public EquipmentTimeTable provideTimeTable(@PathVariable Long equipmentId,
-                                                  @RequestParam LocalDateTime startTime){
-        Optional<EquipmentTimeTable> optionalEquipmentTimeTable
-                = timeTableService.provideEquipmentTimeTable(equipmentId, startTime);
-
-        return optionalEquipmentTimeTable.orElseThrow();
+                                               @RequestParam("dateTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime startTime){
+        return timeTableService.provideEquipmentTimeTable(equipmentId, startTime);
     }
     @PostMapping(value = "/equipment/{equipmentId}/schedule")
     public Mono<Boolean> isAvailableForOrder(@PathVariable Long equipmentId,

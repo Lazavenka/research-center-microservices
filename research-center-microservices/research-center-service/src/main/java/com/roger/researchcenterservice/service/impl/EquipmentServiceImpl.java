@@ -3,7 +3,9 @@ package com.roger.researchcenterservice.service.impl;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.dto.EquipmentGetDto;
 import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
+import com.roger.researchcenterservice.dto.ScheduleEquipmentGetDto;
 import com.roger.researchcenterservice.mapper.EquipmentStructMapper;
+import com.roger.researchcenterservice.mapper.EquipmentStructMapperImpl;
 import com.roger.researchcenterservice.model.Equipment;
 import com.roger.researchcenterservice.model.EquipmentType;
 import com.roger.researchcenterservice.model.Laboratory;
@@ -68,7 +70,6 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipment.setDescription(dtoEntity.getDescription());
         equipment.setAverageResearchTime(dtoEntity.getAverageResearchTime());
         equipment.setPricePerHour(dtoEntity.getPricePerHour());
-        equipment.setNeedAssistant(dtoEntity.isNeedAssistant());
         equipment.setState(dtoEntity.getState());
 
         return EquipmentStructMapper.INSTANCE
@@ -76,7 +77,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         equipmentRepository.deleteById(id);
     }
 
@@ -84,6 +85,12 @@ public class EquipmentServiceImpl implements EquipmentService {
     public List<EquipmentGetDto> getByLaboratoryId(Long laboratoryId) {
         return EquipmentStructMapper.INSTANCE
                 .toListEquipmentGetDto(equipmentRepository.getEquipmentByLaboratoryId(laboratoryId));
+    }
+
+    @Override
+    public ScheduleEquipmentGetDto getByIdForSchedule(Long id) {
+        return EquipmentStructMapperImpl.INSTANCE
+                .entityToScheduleEquipmentDto(equipmentRepository.getReferenceById(id));
     }
 
 }

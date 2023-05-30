@@ -6,21 +6,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EquipmentGetDto {
-    private String id;
+public class ScheduleEquipmentGetDto {
+    private Long id;
     private String name;
     private String description;
     private String imageFilePath;
-    private SlimEquipmentTypeGetDto slimEquipmentTypeGetDto;
-    private SlimLaboratoryDto slimLaboratoryDto;
-    private EquipmentState state;
-    private BigDecimal pricePerHour;
+    private Long laboratoryId;
     private LocalTime averageResearchTime;
 }

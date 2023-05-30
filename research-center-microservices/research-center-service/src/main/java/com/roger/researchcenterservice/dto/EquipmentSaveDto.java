@@ -19,7 +19,6 @@ public class EquipmentSaveDto {
     private String imageFilePath;
     private long equipmentTypeId;
     private long laboratoryId;
-    private boolean isNeedAssistant;
     private EquipmentState state;
     private BigDecimal pricePerHour;
     private LocalTime averageResearchTime;

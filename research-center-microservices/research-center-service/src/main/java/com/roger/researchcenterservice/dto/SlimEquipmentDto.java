@@ -18,7 +18,6 @@ public class SlimEquipmentDto {
     private String description;
     private String imageFilePath;
     private SlimLaboratoryDto slimLaboratoryDto;
-    private boolean isNeedAssistant;
     private EquipmentState state;
     private BigDecimal pricePerHour;
     private LocalTime averageResearchTime;

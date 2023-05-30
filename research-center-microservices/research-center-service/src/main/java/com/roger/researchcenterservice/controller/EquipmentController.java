@@ -3,6 +3,7 @@ package com.roger.researchcenterservice.controller;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.dto.EquipmentGetDto;
 import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
+import com.roger.researchcenterservice.dto.ScheduleEquipmentGetDto;
 import com.roger.researchcenterservice.service.EquipmentService;
 import com.roger.researchcenterservice.service.impl.EquipmentServiceImpl;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,14 @@ public class EquipmentController {
     public EquipmentGetDto getById(@PathVariable Long id){
         return equipmentService.getById(id);
     }
+
+    @GetMapping(value = "/equipment/{id}/for_schedule")
+    public ScheduleEquipmentGetDto getByIdForSchedule(@PathVariable Long id){
+        ScheduleEquipmentGetDto equipmentGetDto = equipmentService.getByIdForSchedule(id);
+        System.out.println(equipmentGetDto);
+        return equipmentGetDto;
+    }
+
 
     @GetMapping(value = "/laboratories/{id}/equipment")
     public List<EquipmentGetDto> getEquipmentByLaboratoryId(@PathVariable Long id){

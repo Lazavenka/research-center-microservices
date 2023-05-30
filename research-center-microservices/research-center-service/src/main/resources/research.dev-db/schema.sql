@@ -34,7 +34,6 @@ create table equipment(
     image_file_path varchar(255),
     equipment_type_id integer not null,
     laboratory_id integer not null,
-    is_need_assistant boolean default false,
     state ENUM('ACTIVE', 'INACTIVE') default 'ACTIVE',
     price_per_hour numeric(5,2) not null default 0.0,
     average_research_time time,
