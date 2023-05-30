@@ -1,14 +1,14 @@
 package by.roger.scheduleservice.service.request;
 
-import by.roger.scheduleservice.model.Assistant;
-import by.roger.scheduleservice.model.Equipment;
+import by.roger.scheduleservice.dto.EquipmentDto;
+import by.roger.scheduleservice.model.Order;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.Disposable;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -17,12 +17,29 @@ import java.util.List;
 public class WebRequestService {
     private WebClient webClient;
 
-    public Mono<Equipment> getEquipmentByIdFromResearchCenterService(Long equipmentId){
+    public Mono<EquipmentDto> getEquipmentByIdFromResearchCenterService(Long equipmentId){
+        String uri = "http://localhost:8080/api/v1/equipment/" + equipmentId.toString()
+                +"/for_schedule";
         return webClient.get()
-                .uri("get from research center equipment by id").retrieve().bodyToMono(Equipment.class);
+                .uri(uri).retrieve().bodyToMono(EquipmentDto.class);
 
     }
 
-    public Mono<List<Assistant>> getAssistantsByLaboratoryIdFromResearchCenterService(Long laboratoryId) {
+    public Mono<List<Order>> getOrderListByEquipmentIdInPeriod(Long equipmentId, LocalDateTime startPeriod, LocalDateTime endPeriod) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String startDateTime = startPeriod.format(formatter);
+        String endDateTime = endPeriod.format(formatter);
+
+        String uri = "http://localhost:8081/api/v1/equipment/" + equipmentId.toString() + "/orders?startTime=" +
+                startDateTime +
+                "&" +
+                "endTime=" +
+                endDateTime;
+        return webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToFlux(Order.class)
+                .collectList();
     }
+
 }

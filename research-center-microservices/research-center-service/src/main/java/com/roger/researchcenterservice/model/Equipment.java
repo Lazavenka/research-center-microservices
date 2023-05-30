@@ -40,8 +40,6 @@ public class Equipment extends CustomEntity{
     @JsonIgnore
     private EquipmentType equipmentType;
 
-    @Column(name = "is_need_assistant")
-    private boolean isNeedAssistant;
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private EquipmentState state;

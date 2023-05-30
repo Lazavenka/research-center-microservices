@@ -12,9 +12,6 @@ import java.util.Map;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query("SELECT o.assistant.id, o FROM Order o WHERE o.assistant.id IN :assistantIds AND o.date = :date")
-    Map<Long, List<Order>> findOrdersByAssistantIdsAndDate(List<Long> assistantIds, LocalDate date);
-
     @Query("SELECT o FROM Order o WHERE o.equipmentId = :equipmentId " +
             "AND (o.rentStartTime >= :startPeriod AND o.rentStartTime <= :endPeriod)")
     List<Order> findOrdersByEquipmentIdAndPeriod(Long equipmentId, LocalDateTime startPeriod, LocalDateTime endPeriod);

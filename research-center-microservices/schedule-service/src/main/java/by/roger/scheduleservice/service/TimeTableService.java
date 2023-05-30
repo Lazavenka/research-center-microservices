@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TimeTableService {
 
-    Optional<EquipmentTimeTable> provideEquipmentTimeTable(Long equipmentId, LocalDateTime dateTime);
+    EquipmentTimeTable provideEquipmentTimeTable(Long equipmentId, LocalDateTime dateTime);
 
     Mono<Boolean> isAvailableForOrder(Long equipmentId, Order order);
 }

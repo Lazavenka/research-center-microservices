@@ -9,7 +9,7 @@ public class InputFieldValidator {
     public boolean isCorrectId(Long id){
         return id>0;
     }
-    public boolean isDateTimeNotPast(LocalDateTime dateTime){
-        return dateTime.isAfter(LocalDateTime.now());
+    public boolean isDateTimePast(LocalDateTime dateTime){
+        return dateTime.toLocalDate().isBefore(LocalDateTime.now().toLocalDate());
     }
 }

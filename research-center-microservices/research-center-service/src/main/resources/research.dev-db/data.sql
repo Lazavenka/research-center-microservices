@@ -25,27 +25,27 @@ values ('Electrical', 'Equipment for research electrophysical properties');
 insert into equipment_type (name, description)
 values ('Microscopes', 'Equipment for research microstructure and morphology');
 
-insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, is_need_assistant, state,
+insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, state,
                        price_per_hour, average_research_time)
-values ('Multimeter V7-27','Voltmeter with wide range measurements voltage, current and resistance', null, 3, 2, false,'ACTIVE', 10.00, '00:15:00');
-insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, is_need_assistant, state,
+values ('Multimeter V7-27','Voltmeter with wide range measurements voltage, current and resistance', null, 3, 2, 'ACTIVE', 10.00, '00:15:00');
+insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, state,
                        price_per_hour, average_research_time)
-values ('Microhardness tester','1-50 nN force apply for microhardness tester with nanoindentor', null, 2, 4, false,'ACTIVE', 25.00, '00:25:00');
-insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, is_need_assistant, state,
+values ('Microhardness tester','1-50 nN force apply for microhardness tester with nanoindentor', null, 2, 4, 'ACTIVE', 25.00, '00:25:00');
+insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, state,
                        price_per_hour, average_research_time)
-values ('Spectrophotometer SFM 2000','Visible and near IR range spectrephotometer', null, 1, 1, true,'ACTIVE', 30.00, '00:30:00');
-insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, is_need_assistant, state,
+values ('Spectrophotometer SFM 2000','Visible and near IR range spectrephotometer', null, 1, 1,'ACTIVE', 30.00, '00:30:00');
+insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id,  state,
                        price_per_hour, average_research_time)
-values ('Oscilloscope Belvar 2021','Signal analyser in 10 Hz - 10 MHz range', null, 3, 3, false,'ACTIVE', 15.00, '00:20:00');
-insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, is_need_assistant, state,
+values ('Oscilloscope Belvar 2021','Signal analyser in 10 Hz - 10 MHz range', null, 3, 3, 'ACTIVE', 15.00, '00:20:00');
+insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id,  state,
                        price_per_hour, average_research_time)
-values ('Atomic-force microscope Carl-Zeiss AFM1','AFM with 100 pm resolution', null, 4, 2, true,'ACTIVE', 100.00, '01:30:00');
-insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, is_need_assistant, state,
+values ('Atomic-force microscope Carl-Zeiss AFM1','AFM with 100 pm resolution', null, 4, 2, 'ACTIVE', 100.00, '00:25:00');
+insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id,  state,
                        price_per_hour, average_research_time)
-values ('Scanning electron microscope JEOL-9000','Microscope with 2 nm resolution', null, 4, 3, true,'ACTIVE', 50.00, '02:30:00');
-insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, is_need_assistant, state,
+values ('Scanning electron microscope JEOL-9000','Microscope with 2 nm resolution', null, 4, 3, 'ACTIVE', 50.00, '02:30:00');
+insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, state,
                        price_per_hour, average_research_time)
-values ('Deformation measurement stand','Set of equipment for elastic deformation measurement', null, 2, 4, false,'ACTIVE', 25.00, '00:45:00');
-insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id, is_need_assistant, state,
+values ('Deformation measurement stand','Set of equipment for elastic deformation measurement', null, 2, 4, 'ACTIVE', 25.00, '00:45:00');
+insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id,  state,
                        price_per_hour, average_research_time)
-values ('Spectrophotometer SFM 3000', 'Visible and near IR range spectrephotometer', null, 1, 6, true, 'ACTIVE', 30.00, '00:30:00');
+values ('Spectrophotometer SFM 3000', 'Visible and near IR range spectrephotometer', null, 1, 6,  'ACTIVE', 30.00, '00:30:00');

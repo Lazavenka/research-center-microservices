@@ -1,9 +1,6 @@
 package com.roger.researchcenterservice.mapper;
 
-import com.roger.researchcenterservice.dto.EquipmentSaveDto;
-import com.roger.researchcenterservice.dto.EquipmentGetDto;
-import com.roger.researchcenterservice.dto.SlimEquipmentDto;
-import com.roger.researchcenterservice.dto.SlimLaboratoryDto;
+import com.roger.researchcenterservice.dto.*;
 import com.roger.researchcenterservice.model.Equipment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -26,5 +23,7 @@ public interface EquipmentStructMapper {
     SlimEquipmentDto entityToSlimEquipmentDto(Equipment equipment);
     List<EquipmentGetDto> toListEquipmentGetDto(List<Equipment> equipment);
     List<SlimEquipmentDto> toListSlimEquipmentDto(List<Equipment> equipment);
+    @Mapping(target = "laboratoryId", expression = "java(equipment.getLaboratory().getId())")
+    ScheduleEquipmentGetDto entityToScheduleEquipmentDto(Equipment equipment);
 
 }

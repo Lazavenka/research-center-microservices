@@ -1,6 +1,7 @@
 package by.roger.scheduleservice.service.impl;
 
 import by.roger.scheduleservice.model.Order;
+import by.roger.scheduleservice.service.request.WebRequestService;
 import by.roger.scheduleservice.validator.InputFieldValidator;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TimeTableServiceImplTest {
 
-    private final TimeTableServiceImpl timeTableService = new TimeTableServiceImpl(WebClient.builder().build(), new InputFieldValidator());
+    private final TimeTableServiceImpl timeTableService = new TimeTableServiceImpl(
+                        new WebRequestService(WebClient.builder().build()), new InputFieldValidator());
 
     @Test
     void checkAvailabilityTest_notCrossed() {
