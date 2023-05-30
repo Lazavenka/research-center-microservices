@@ -13,10 +13,11 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Builder
 public class Equipment {
-    private String id;
+    private Long id;
     private String name;
     private String description;
     private String imageFilePath;
+    private Long laboratoryId;
     private boolean isNeedAssistant;
     private BigDecimal pricePerHour;
     private LocalTime averageResearchTime;

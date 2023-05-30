@@ -3,9 +3,11 @@ package by.roger.scheduleservice.controller;
 import by.roger.scheduleservice.dto.EquipmentTimeTableDto;
 import by.roger.scheduleservice.dto.RentPeriodDto;
 import by.roger.scheduleservice.model.EquipmentTimeTable;
+import by.roger.scheduleservice.model.Order;
 import by.roger.scheduleservice.service.TimeTableService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -25,10 +27,10 @@ public class ScheduleController {
 
         return optionalEquipmentTimeTable.orElseThrow();
     }
-    @GetMapping(value = "/equipment/{equipmentId}/schedule")
-    public boolean isAvailableForOrder(@PathVariable Long equipmentId,
-                                       @RequestParam RentPeriodDto rentPeriod){
+    @PostMapping(value = "/equipment/{equipmentId}/schedule")
+    public Mono<Boolean> isAvailableForOrder(@PathVariable Long equipmentId,
+                                             @RequestBody Order order){
 
-        return timeTableService.isAvailableForOrder(equipmentId, rentPeriod);
+        return timeTableService.isAvailableForOrder(equipmentId, order);
     }
 }

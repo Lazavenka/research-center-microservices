@@ -1,31 +1,30 @@
 package by.roger.scheduleservice.service.impl;
 
-import by.roger.scheduleservice.dto.RentPeriodDto;
 import by.roger.scheduleservice.model.*;
-import by.roger.scheduleservice.dto.EquipmentTimeTableDto;
+
 import by.roger.scheduleservice.service.TimeTableService;
+import by.roger.scheduleservice.service.request.WebRequestService;
 import by.roger.scheduleservice.validator.InputFieldValidator;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.Disposable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-import static javax.management.timer.Timer.ONE_DAY;
 
 @Service
 @AllArgsConstructor
 public class TimeTableServiceImpl implements TimeTableService {
 
-    private WebClient webClient;
+    private WebRequestService requestService;
     private InputFieldValidator inputFieldValidator;
 
     @Override
@@ -41,16 +40,12 @@ public class TimeTableServiceImpl implements TimeTableService {
             return optionalEquipmentTimeTable;
         }
 
-        Equipment selectedEquipment = webClient.get()
-                .uri("get from research center equipment by id").retrieve().bodyToMono(Equipment.class).block();
+        Mono<Equipment> selectedEquipment = requestService.getEquipmentByIdFromResearchCenterService(equipmentId);
 
-        WebClient.ResponseSpec response = webClient.get()
-                .uri("get from research center assistant by laboratory id")
-                .retrieve();
+        Long laboratoryId = selectedEquipment.map(Equipment::getLaboratoryId).block();
 
-        List<Assistant> assistants = response.bodyToFlux(Assistant.class)
-                .collectList()
-                .block();
+        Mono<List<Assistant>> assistantFlux = requestService.getAssistantsByLaboratoryIdFromResearchCenterService(laboratoryId);
+
 
         EquipmentTimeTable equipmentTimeTable = new EquipmentTimeTable(selectedEquipment);
 
@@ -83,11 +78,32 @@ public class TimeTableServiceImpl implements TimeTableService {
     }
 
     @Override
-    public boolean isAvailableForOrder(Long equipmentId, RentPeriodDto rentPeriod) {
+    public Mono<Boolean> isAvailableForOrder(Long equipmentId, Order order) {
+        Mono<List<Order>> ordersInPeriod = getOrderListByEquipmentIdInPeriod(equipmentId, order);
 
-        // todo через нотификатор какой-то и кэш, бо задолбается считать расписание
+        return ordersInPeriod.map(list -> checkIsAvailable(order, list));
+    }
 
-        return false;
+    private Mono<List<Order>> getOrderListByEquipmentIdInPeriod(Long equipmentId, Order order) {
+        LocalDateTime orderRentStartDate = order.getRentStartTime();
+        LocalDateTime orderRentEndTime = order.getRentStartTime();
+        String uri = "http://localhost:8081/api/v1/equipment/" + equipmentId.toString() + "/order?startPeriod=" +
+                orderRentStartDate.toString() +
+                "&" +
+                "endPeriod=" +
+                orderRentEndTime.toString();
+        return webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToFlux(Order.class)
+                .collectList();
+    }
+
+    public boolean checkIsAvailable(Order orderToBeChecked, List<Order> ordersInPeriod){
+        return ordersInPeriod.stream()
+                .map(Order::extractWorkTimePeriod)
+                .filter(period -> period.crossPeriod(orderToBeChecked.extractWorkTimePeriod()))
+                .toList().isEmpty();
     }
 
     private void buildTimeTable(List<Assistant> laboratoryAssistants, EquipmentTimeTable equipmentTimeTable) {
@@ -175,4 +191,5 @@ public class TimeTableServiceImpl implements TimeTableService {
             }
         }
     }
+
 }

@@ -1,8 +1,8 @@
 package by.roger.scheduleservice.service;
 
-import by.roger.scheduleservice.dto.EquipmentTimeTableDto;
-import by.roger.scheduleservice.dto.RentPeriodDto;
 import by.roger.scheduleservice.model.EquipmentTimeTable;
+import by.roger.scheduleservice.model.Order;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -11,5 +11,5 @@ public interface TimeTableService {
 
     Optional<EquipmentTimeTable> provideEquipmentTimeTable(Long equipmentId, LocalDateTime dateTime);
 
-    boolean isAvailableForOrder(Long equipmentId, RentPeriodDto rentPeriod);
+    Mono<Boolean> isAvailableForOrder(Long equipmentId, Order order);
 }

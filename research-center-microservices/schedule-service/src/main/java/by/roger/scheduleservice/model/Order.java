@@ -20,4 +20,8 @@ public class Order {
     private LocalDateTime rentStartTime;
     private LocalDateTime rentEndTime;
     private long assistantId;
+
+    public EquipmentWorkTimePeriod extractWorkTimePeriod(){
+        return new EquipmentWorkTimePeriod(rentStartTime, rentEndTime, EquipmentAvailability.BUSY);
+    }
 }
