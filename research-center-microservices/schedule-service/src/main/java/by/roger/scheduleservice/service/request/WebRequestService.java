@@ -30,11 +30,9 @@ public class WebRequestService {
         String startDateTime = startPeriod.format(formatter);
         String endDateTime = endPeriod.format(formatter);
 
-        String uri = "http://localhost:8081/api/v1/equipment/" + equipmentId.toString() + "/orders?startTime=" +
-                startDateTime +
-                "&" +
-                "endTime=" +
-                endDateTime;
+        String uri = "http://localhost:8081/api/v1/equipment/" + equipmentId.toString() +
+                "/orders?startTime=" + startDateTime +
+                "&endTime=" + endDateTime;
         return webClient.get()
                 .uri(uri)
                 .retrieve()
