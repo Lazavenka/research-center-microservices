@@ -3,9 +3,8 @@ package com.roger.researchcenterservice.service.impl;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.dto.EquipmentGetDto;
 import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
-import com.roger.researchcenterservice.dto.ScheduleEquipmentGetDto;
+import com.roger.researchcenterservice.dto.EquipmentInfoDto;
 import com.roger.researchcenterservice.mapper.EquipmentStructMapper;
-import com.roger.researchcenterservice.mapper.EquipmentStructMapperImpl;
 import com.roger.researchcenterservice.model.Equipment;
 import com.roger.researchcenterservice.model.EquipmentType;
 import com.roger.researchcenterservice.model.Laboratory;
@@ -26,6 +25,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     private final EquipmentRepository equipmentRepository;
     private final LaboratoryRepository laboratoryRepository;
     private final EquipmentTypeRepository equipmentTypeRepository;
+    private final EquipmentStructMapper mapper;
 
     @Override
     public EquipmentGetDto create(EquipmentSaveDto saveDto) {
@@ -34,7 +34,6 @@ public class EquipmentServiceImpl implements EquipmentService {
         if (optionalEquipment.isPresent()) {
             throw new RuntimeException("EQUIPMENT IS PRESENT"); //todo make custom exception
         }
-        EquipmentStructMapper mapper = EquipmentStructMapper.INSTANCE;
         Equipment equipment = mapper.saveDtoToEntity(saveDto);
         Laboratory laboratory = laboratoryRepository.getReferenceById(saveDto.getLaboratoryId());
         equipment.setLaboratory(laboratory);
@@ -45,14 +44,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public EquipmentGetDto getById(Long id) {
-        return EquipmentStructMapper.INSTANCE
-                .toEquipmentGetDto(equipmentRepository.getReferenceById(id));
+        return mapper.toEquipmentGetDto(equipmentRepository.getReferenceById(id));
     }
 
     @Override
     public List<EquipmentGetDto> getAll() {
-        return EquipmentStructMapper.INSTANCE
-                .toListEquipmentGetDto(equipmentRepository.findAll());
+        return mapper.toListEquipmentGetDto(equipmentRepository.findAll());
     }
 
     @Override
@@ -72,8 +69,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipment.setPricePerHour(dtoEntity.getPricePerHour());
         equipment.setState(dtoEntity.getState());
 
-        return EquipmentStructMapper.INSTANCE
-                .toEquipmentGetDto(equipmentRepository.saveAndFlush(equipment));
+        return mapper.toEquipmentGetDto(equipmentRepository.saveAndFlush(equipment));
     }
 
     @Override
@@ -83,14 +79,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public List<EquipmentGetDto> getByLaboratoryId(Long laboratoryId) {
-        return EquipmentStructMapper.INSTANCE
-                .toListEquipmentGetDto(equipmentRepository.getEquipmentByLaboratoryId(laboratoryId));
+        return mapper.toListEquipmentGetDto(equipmentRepository.getEquipmentByLaboratoryId(laboratoryId));
     }
 
     @Override
-    public ScheduleEquipmentGetDto getByIdForSchedule(Long id) {
-        return EquipmentStructMapperImpl.INSTANCE
-                .entityToScheduleEquipmentDto(equipmentRepository.getReferenceById(id));
+    public EquipmentInfoDto getByIdForInfo(Long id) {
+        return mapper.entityToEquipmentInfoDto(equipmentRepository.getReferenceById(id));
     }
 
 }

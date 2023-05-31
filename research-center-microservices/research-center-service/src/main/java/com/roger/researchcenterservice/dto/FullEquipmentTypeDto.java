@@ -15,6 +15,6 @@ public class FullEquipmentTypeDto {
 
     private String name;
     private String description;
-    private List<SlimEquipmentDto> equipment;
+    private List<EquipmentGetDto> equipment;
 
 }

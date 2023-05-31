@@ -1,43 +1,56 @@
 package com.roger.researchcenterservice.mapper;
 
 import com.roger.researchcenterservice.dto.EquipmentGetDto;
+import com.roger.researchcenterservice.dto.EquipmentInfoDto;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
-import com.roger.researchcenterservice.dto.ScheduleEquipmentGetDto;
-import com.roger.researchcenterservice.dto.SlimEquipmentDto;
 import com.roger.researchcenterservice.model.Equipment;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-30T22:12:05+0200",
+    date = "2023-05-31T20:14:49+0200",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.1.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
+@Component
 public class EquipmentStructMapperImpl implements EquipmentStructMapper {
 
-    private final EquipmentTypeStructMapper equipmentTypeStructMapper = EquipmentTypeStructMapper.INSTANCE;
-    private final LaboratoryStructMapper laboratoryStructMapper = LaboratoryStructMapper.INSTANCE;
-
     @Override
-    public EquipmentGetDto toEquipmentGetDto(Equipment entity) {
-        if ( entity == null ) {
+    public EquipmentGetDto toEquipmentGetDto(Equipment equipment) {
+        if ( equipment == null ) {
             return null;
         }
 
         EquipmentGetDto.EquipmentGetDtoBuilder equipmentGetDto = EquipmentGetDto.builder();
 
-        equipmentGetDto.slimLaboratoryDto( laboratoryStructMapper.toSlimLaboratoryDto( entity.getLaboratory() ) );
-        equipmentGetDto.slimEquipmentTypeGetDto( equipmentTypeStructMapper.entityToSlimGetDto( entity.getEquipmentType() ) );
-        equipmentGetDto.id( String.valueOf( entity.getId() ) );
-        equipmentGetDto.name( entity.getName() );
-        equipmentGetDto.description( entity.getDescription() );
-        equipmentGetDto.imageFilePath( entity.getImageFilePath() );
-        equipmentGetDto.state( entity.getState() );
-        equipmentGetDto.pricePerHour( entity.getPricePerHour() );
-        equipmentGetDto.averageResearchTime( entity.getAverageResearchTime() );
+        equipmentGetDto.id( equipment.getId() );
+        equipmentGetDto.name( equipment.getName() );
+        equipmentGetDto.description( equipment.getDescription() );
+        equipmentGetDto.imageFilePath( equipment.getImageFilePath() );
+        equipmentGetDto.state( equipment.getState() );
+        equipmentGetDto.pricePerHour( equipment.getPricePerHour() );
+        equipmentGetDto.averageResearchTime( equipment.getAverageResearchTime() );
+
+        equipmentGetDto.equipmentType( equipment.getEquipmentType().getName() );
+        equipmentGetDto.laboratoryId( equipment.getLaboratory().getId() );
 
         return equipmentGetDto.build();
+    }
+
+    @Override
+    public List<EquipmentGetDto> toListEquipmentGetDto(List<Equipment> equipment) {
+        if ( equipment == null ) {
+            return null;
+        }
+
+        List<EquipmentGetDto> list = new ArrayList<EquipmentGetDto>( equipment.size() );
+        for ( Equipment equipment1 : equipment ) {
+            list.add( toEquipmentGetDto( equipment1 ) );
+        }
+
+        return list;
     }
 
     @Override
@@ -59,69 +72,36 @@ public class EquipmentStructMapperImpl implements EquipmentStructMapper {
     }
 
     @Override
-    public SlimEquipmentDto entityToSlimEquipmentDto(Equipment equipment) {
+    public EquipmentInfoDto entityToEquipmentInfoDto(Equipment equipment) {
         if ( equipment == null ) {
             return null;
         }
 
-        SlimEquipmentDto.SlimEquipmentDtoBuilder slimEquipmentDto = SlimEquipmentDto.builder();
+        EquipmentInfoDto.EquipmentInfoDtoBuilder equipmentInfoDto = EquipmentInfoDto.builder();
 
-        slimEquipmentDto.slimLaboratoryDto( laboratoryStructMapper.toSlimLaboratoryDto( equipment.getLaboratory() ) );
-        slimEquipmentDto.id( String.valueOf( equipment.getId() ) );
-        slimEquipmentDto.name( equipment.getName() );
-        slimEquipmentDto.description( equipment.getDescription() );
-        slimEquipmentDto.imageFilePath( equipment.getImageFilePath() );
-        slimEquipmentDto.state( equipment.getState() );
-        slimEquipmentDto.pricePerHour( equipment.getPricePerHour() );
-        slimEquipmentDto.averageResearchTime( equipment.getAverageResearchTime() );
+        equipmentInfoDto.id( equipment.getId() );
+        equipmentInfoDto.name( equipment.getName() );
+        equipmentInfoDto.description( equipment.getDescription() );
+        equipmentInfoDto.imageFilePath( equipment.getImageFilePath() );
+        equipmentInfoDto.pricePerHour( equipment.getPricePerHour() );
+        equipmentInfoDto.averageResearchTime( equipment.getAverageResearchTime() );
 
-        return slimEquipmentDto.build();
+        equipmentInfoDto.laboratoryId( equipment.getLaboratory().getId() );
+
+        return equipmentInfoDto.build();
     }
 
     @Override
-    public List<EquipmentGetDto> toListEquipmentGetDto(List<Equipment> equipment) {
+    public List<EquipmentInfoDto> toListEquipmentInfoDto(List<Equipment> equipment) {
         if ( equipment == null ) {
             return null;
         }
 
-        List<EquipmentGetDto> list = new ArrayList<EquipmentGetDto>( equipment.size() );
+        List<EquipmentInfoDto> list = new ArrayList<EquipmentInfoDto>( equipment.size() );
         for ( Equipment equipment1 : equipment ) {
-            list.add( toEquipmentGetDto( equipment1 ) );
+            list.add( entityToEquipmentInfoDto( equipment1 ) );
         }
 
         return list;
-    }
-
-    @Override
-    public List<SlimEquipmentDto> toListSlimEquipmentDto(List<Equipment> equipment) {
-        if ( equipment == null ) {
-            return null;
-        }
-
-        List<SlimEquipmentDto> list = new ArrayList<SlimEquipmentDto>( equipment.size() );
-        for ( Equipment equipment1 : equipment ) {
-            list.add( entityToSlimEquipmentDto( equipment1 ) );
-        }
-
-        return list;
-    }
-
-    @Override
-    public ScheduleEquipmentGetDto entityToScheduleEquipmentDto(Equipment equipment) {
-        if ( equipment == null ) {
-            return null;
-        }
-
-        ScheduleEquipmentGetDto.ScheduleEquipmentGetDtoBuilder scheduleEquipmentGetDto = ScheduleEquipmentGetDto.builder();
-
-        scheduleEquipmentGetDto.id( equipment.getId() );
-        scheduleEquipmentGetDto.name( equipment.getName() );
-        scheduleEquipmentGetDto.description( equipment.getDescription() );
-        scheduleEquipmentGetDto.imageFilePath( equipment.getImageFilePath() );
-        scheduleEquipmentGetDto.averageResearchTime( equipment.getAverageResearchTime() );
-
-        scheduleEquipmentGetDto.laboratoryId( equipment.getLaboratory().getId() );
-
-        return scheduleEquipmentGetDto.build();
     }
 }

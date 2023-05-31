@@ -7,15 +7,24 @@ import com.roger.researchcenterservice.model.Department;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-30T22:12:05+0200",
+    date = "2023-05-31T20:14:49+0200",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.1.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
+@Component
 public class DepartmentStructMapperImpl implements DepartmentStructMapper {
 
-    private final LaboratoryStructMapper laboratoryStructMapper = LaboratoryStructMapper.INSTANCE;
+    private final LaboratoryStructMapper laboratoryStructMapper;
+
+    @Autowired
+    public DepartmentStructMapperImpl(LaboratoryStructMapper laboratoryStructMapper) {
+
+        this.laboratoryStructMapper = laboratoryStructMapper;
+    }
 
     @Override
     public SlimDepartmentDto entityToSlimDto(Department department) {

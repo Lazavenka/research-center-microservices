@@ -14,23 +14,22 @@ import java.util.List;
 @AllArgsConstructor
 public class EquipmentTypeServiceImpl implements EquipmentTypeService {
     private final EquipmentTypeRepository equipmentTypeRepository;
+    private EquipmentTypeStructMapper mapper;
 
     @Override
     public SlimEquipmentTypeGetDto getById(Long id) {
-        return EquipmentTypeStructMapper.INSTANCE
-                .entityToSlimGetDto(equipmentTypeRepository.getReferenceById(id));
+        return mapper.entityToSlimGetDto(equipmentTypeRepository.getReferenceById(id));
     }
 
     @Override
     public FullEquipmentTypeDto getEquipmentByTypeId(Long id) {
-        return EquipmentTypeStructMapper.INSTANCE
-                .entityToFullGetDto(equipmentTypeRepository.getReferenceById(id));
+        return mapper.entityToFullGetDto(equipmentTypeRepository.getReferenceById(id));
     }
 
     @Override
     public List<SlimEquipmentTypeGetDto> getAll() {
         return equipmentTypeRepository.findAll().stream()
-                .map(EquipmentTypeStructMapper.INSTANCE::entityToSlimGetDto)
+                .map(mapper::entityToSlimGetDto)
                 .toList();
     }
 }

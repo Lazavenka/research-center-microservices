@@ -1,3 +1,9 @@
+CREATE SEQUENCE department_seq START WITH 55 INCREMENT BY 50;
+CREATE SEQUENCE laboratory_seq START WITH 56 INCREMENT BY 50;
+CREATE SEQUENCE equipment_type_seq START WITH 54 INCREMENT BY 50;
+CREATE SEQUENCE equipment_seq START WITH 58 INCREMENT BY 50;
+
+
 insert into department (name, description, address)
 values ('Physics of condensed matter', 'Researching in sphere of condensed matter', 'Minsk, Brovki str, 19');
 insert into department (name, description, address)

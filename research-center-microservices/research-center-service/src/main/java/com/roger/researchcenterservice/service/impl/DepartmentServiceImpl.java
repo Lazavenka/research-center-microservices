@@ -16,11 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentRepository departmentRepository;
+    private DepartmentStructMapper mapper;
 
     @Override
     public SlimDepartmentDto create(DepartmentSaveDto saveDto) {
 
-        DepartmentStructMapper mapper = DepartmentStructMapper.INSTANCE;
         Department department = mapper.saveDtoToEntity(saveDto);
         return mapper.entityToSlimDto(departmentRepository.saveAndFlush(department));
 
@@ -28,14 +28,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<SlimDepartmentDto> getAll() {
-        return DepartmentStructMapper.INSTANCE
-                .toListSlimDto(departmentRepository.findAll());
+        return mapper.toListSlimDto(departmentRepository.findAll());
     }
 
     @Override
     public FullDepartmentDto getById(Long id) {
-        return DepartmentStructMapper.INSTANCE
-                .toFullDepartmentDto(departmentRepository.getReferenceById(id));
+        return mapper.toFullDepartmentDto(departmentRepository.getReferenceById(id));
     }
 
     @Override
@@ -45,7 +43,6 @@ public class DepartmentServiceImpl implements DepartmentService {
         department.setDescription(updateDto.getDescription());
         department.setName(updateDto.getName());
 
-        return DepartmentStructMapper.INSTANCE
-                .entityToSlimDto(departmentRepository.saveAndFlush(department));
+        return mapper.entityToSlimDto(departmentRepository.saveAndFlush(department));
     }
 }

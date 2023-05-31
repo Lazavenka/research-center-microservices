@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Order extends CustomEntity {
     @Column(name="client_id")
     private long clientId;

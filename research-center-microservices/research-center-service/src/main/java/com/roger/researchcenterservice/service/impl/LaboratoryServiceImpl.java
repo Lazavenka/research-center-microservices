@@ -21,24 +21,21 @@ public class LaboratoryServiceImpl implements LaboratoryService {
 
     private final LaboratoryRepository laboratoryRepository;
     private final DepartmentRepository departmentRepository;
-
+    private LaboratoryStructMapper mapper;
     @Override
     public List<SlimLaboratoryDto> getAll() {
-        return LaboratoryStructMapper.INSTANCE
-                .toListSlimLaboratoryDto(laboratoryRepository.findAll());
+        return mapper.toListSlimLaboratoryDto(laboratoryRepository.findAll());
     }
 
     @Override
     public FullLaboratoryDto getById(Long id) {
-        return LaboratoryStructMapper.INSTANCE
-                .toFullLaboratoryDto(laboratoryRepository.getReferenceById(id));
+        return mapper.toFullLaboratoryDto(laboratoryRepository.getReferenceById(id));
     }
 
     @Override
     public List<SlimLaboratoryDto> getLaboratoriesByDepartmentId(Long departmentId) {
         Department department = departmentRepository.getReferenceById(departmentId);
-        return LaboratoryStructMapper.INSTANCE
-                .toListSlimLaboratoryDto(department.getLaboratories());
+        return mapper.toListSlimLaboratoryDto(department.getLaboratories());
     }
 
     @Override
@@ -48,7 +45,6 @@ public class LaboratoryServiceImpl implements LaboratoryService {
         if (optionalLaboratory.isPresent()) {
             throw new RuntimeException("LABORATORY IS PRESENT!");
         }
-        LaboratoryStructMapper mapper = LaboratoryStructMapper.INSTANCE;
         Laboratory laboratory = mapper.saveDtoToEntity(laboratorySaveDto);
         Department department = departmentRepository.getReferenceById(laboratorySaveDto.getDepartmentId());
         laboratory.setDepartment(department);
@@ -68,7 +64,6 @@ public class LaboratoryServiceImpl implements LaboratoryService {
         laboratory.setDescription(laboratorySaveDto.getDescription());
         laboratory.setLocation(laboratorySaveDto.getLocation());
 
-        return LaboratoryStructMapper.INSTANCE
-                .toSlimLaboratoryDto(laboratoryRepository.saveAndFlush(laboratory));
+        return mapper.toSlimLaboratoryDto(laboratoryRepository.saveAndFlush(laboratory));
     }
 }

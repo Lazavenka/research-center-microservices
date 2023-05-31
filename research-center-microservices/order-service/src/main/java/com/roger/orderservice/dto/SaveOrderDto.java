@@ -16,10 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class SaveOrderDto {
     private long clientId;
-    private OrderState state;
-    private BigDecimal totalCost;
     private long equipmentId;
     private LocalDateTime rentStartTime;
     private LocalDateTime rentEndTime;
-    private long assistantId;
 }

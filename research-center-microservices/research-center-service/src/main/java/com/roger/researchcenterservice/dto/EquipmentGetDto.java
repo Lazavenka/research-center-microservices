@@ -14,12 +14,12 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Builder
 public class EquipmentGetDto {
-    private String id;
+    private Long id;
     private String name;
     private String description;
     private String imageFilePath;
-    private SlimEquipmentTypeGetDto slimEquipmentTypeGetDto;
-    private SlimLaboratoryDto slimLaboratoryDto;
+    private String equipmentType;
+    private Long laboratoryId;
     private EquipmentState state;
     private BigDecimal pricePerHour;
     private LocalTime averageResearchTime;

@@ -16,4 +16,6 @@ public interface OrderService {
 
     List<OrderGetDto> getOrdersByEquipmentIdAtPeriod(Long equipmentId, LocalDateTime startTime, LocalDateTime endTime);
 
+    List<OrderGetDto> getAll();
+
 }

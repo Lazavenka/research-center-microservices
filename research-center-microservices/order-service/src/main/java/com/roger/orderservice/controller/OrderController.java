@@ -35,6 +35,8 @@ public class OrderController {
                                                             @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime endTime) {
         return orderService.getOrdersByEquipmentIdAtPeriod(equipmentId, startTime, endTime);
     }
-
-
+    @GetMapping(value = "/orders")
+    public List<OrderGetDto> getAll(){
+        return orderService.getAll();
+    }
 }

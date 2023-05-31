@@ -4,13 +4,17 @@ import com.roger.researchcenterservice.dto.FullLaboratoryDto;
 import com.roger.researchcenterservice.dto.LaboratorySaveDto;
 import com.roger.researchcenterservice.dto.SlimLaboratoryDto;
 import com.roger.researchcenterservice.model.Laboratory;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(uses = EquipmentStructMapper.class,
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        uses = EquipmentStructMapper.class,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LaboratoryStructMapper {
 
@@ -19,6 +23,5 @@ public interface LaboratoryStructMapper {
     SlimLaboratoryDto toSlimLaboratoryDto(Laboratory laboratory);
     FullLaboratoryDto toFullLaboratoryDto(Laboratory laboratory);
     List<SlimLaboratoryDto> toListSlimLaboratoryDto(List<Laboratory> laboratories);
-    List<FullLaboratoryDto> toListFullLaboratoryDto(List<Laboratory> laboratories);
     Laboratory saveDtoToEntity(LaboratorySaveDto saveDto);
 }

@@ -1,11 +1,10 @@
 package com.roger.researchcenterservice.controller;
 
+import com.roger.researchcenterservice.dto.EquipmentInfoDto;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.dto.EquipmentGetDto;
 import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
-import com.roger.researchcenterservice.dto.ScheduleEquipmentGetDto;
 import com.roger.researchcenterservice.service.EquipmentService;
-import com.roger.researchcenterservice.service.impl.EquipmentServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +39,10 @@ public class EquipmentController {
         return equipmentService.getById(id);
     }
 
-    @GetMapping(value = "/equipment/{id}/for_schedule")
-    public ScheduleEquipmentGetDto getByIdForSchedule(@PathVariable Long id){
-        ScheduleEquipmentGetDto equipmentGetDto = equipmentService.getByIdForSchedule(id);
-        System.out.println(equipmentGetDto);
-        return equipmentGetDto;
+    @GetMapping(value = "/equipment/{id}/info")
+    public EquipmentInfoDto getByIdForSchedule(@PathVariable Long id){
+        return equipmentService.getByIdForInfo(id);
     }
-
 
     @GetMapping(value = "/laboratories/{id}/equipment")
     public List<EquipmentGetDto> getEquipmentByLaboratoryId(@PathVariable Long id){

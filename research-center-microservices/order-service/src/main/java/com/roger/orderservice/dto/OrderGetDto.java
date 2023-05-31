@@ -21,5 +21,4 @@ public class OrderGetDto {
     private long equipmentId;
     private LocalDateTime rentStartTime;
     private LocalDateTime rentEndTime;
-    private long assistantId;
 }
