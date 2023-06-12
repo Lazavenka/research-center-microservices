@@ -1,17 +1,16 @@
 package com.roger.orderservice.controller;
 
 import com.roger.orderservice.dto.OrderGetDto;
-import com.roger.orderservice.dto.RentPeriodDto;
 import com.roger.orderservice.dto.SaveOrderDto;
 import com.roger.orderservice.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -31,12 +30,23 @@ public class OrderController {
 
     @GetMapping(value = "/equipment/{equipmentId}/orders")
     public List<OrderGetDto> getOrdersByEquipmentIdAtPeriod(@PathVariable Long equipmentId,
-                                                            @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime startTime,
-                                                            @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime endTime) {
+                                                            @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startTime,
+                                                            @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endTime) {
         return orderService.getOrdersByEquipmentIdAtPeriod(equipmentId, startTime, endTime);
     }
+
     @GetMapping(value = "/orders")
-    public List<OrderGetDto> getAll(){
-        return orderService.getAll();
+    public ResponseEntity<List<OrderGetDto>> getAll() {
+        List<OrderGetDto> orders = orderService.getAll();
+        if(orders.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(orders);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(orders);
+    }
+
+    @PutMapping(value = "/users/{userId}/orders/{orderId}")
+    public OrderGetDto payOrder(@PathVariable Long userId,
+                                @PathVariable Long orderId) {
+        return orderService.payOrder(userId, orderId);
     }
 }

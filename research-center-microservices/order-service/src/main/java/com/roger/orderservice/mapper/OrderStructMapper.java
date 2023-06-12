@@ -4,12 +4,17 @@ import com.roger.orderservice.dto.OrderGetDto;
 import com.roger.orderservice.dto.SaveOrderDto;
 import com.roger.orderservice.model.Order;
 import org.aspectj.weaver.ast.Or;
+import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderStructMapper {
     OrderStructMapper INSTANCE = Mappers.getMapper(OrderStructMapper.class);
 

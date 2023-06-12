@@ -1,5 +1,6 @@
 package com.roger.researchcenterservice.service.impl;
 
+import com.roger.researchcenterservice.dto.EquipmentTypeSaveDto;
 import com.roger.researchcenterservice.dto.FullEquipmentTypeDto;
 import com.roger.researchcenterservice.dto.SlimEquipmentTypeGetDto;
 import com.roger.researchcenterservice.mapper.EquipmentTypeStructMapper;
@@ -24,6 +25,11 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
     @Override
     public FullEquipmentTypeDto getEquipmentByTypeId(Long id) {
         return mapper.entityToFullGetDto(equipmentTypeRepository.getReferenceById(id));
+    }
+
+    @Override
+    public SlimEquipmentTypeGetDto create(EquipmentTypeSaveDto saveDto) {
+        return null;
     }
 
     @Override

@@ -3,63 +3,66 @@ package com.roger.orderservice.service.impl;
 import com.roger.orderservice.dto.EquipmentDto;
 import com.roger.orderservice.dto.OrderGetDto;
 import com.roger.orderservice.dto.SaveOrderDto;
+import com.roger.orderservice.exception.CustomNotFoundException;
+import com.roger.orderservice.exception.IncorrectRequestException;
 import com.roger.orderservice.mapper.OrderStructMapper;
 import com.roger.orderservice.model.Order;
 import com.roger.orderservice.model.OrderState;
 import com.roger.orderservice.repository.OrderRepository;
 import com.roger.orderservice.service.OrderService;
+import com.roger.orderservice.service.ServiceLayerExceptionCodes;
 import com.roger.orderservice.service.WebRequestService;
 import com.roger.orderservice.util.OrderTotalCostCalculator;
+import com.roger.orderservice.util.impl.OrderValidator;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-
 @Service
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private WebRequestService webRequestService;
+    private OrderStructMapper mapper;
+    private OrderValidator validator;
 
     @Override
     public OrderGetDto createOrder(SaveOrderDto saveOrderDto) {
-        OrderStructMapper mapper = OrderStructMapper.INSTANCE;
+        validator.validate(saveOrderDto);
         Order order = mapper.saveDtoToEntity(saveOrderDto);
-        if (order.getRentStartTime().isAfter(order.getRentEndTime())){
-            throw new RuntimeException("Incorrect rent time!");
-        }
-        System.out.println(order);
-        boolean isAvailable = Boolean.TRUE.equals(webRequestService.requestCheckAvailability(order).block());
-        if (isAvailable){
-            EquipmentDto equipmentDto = webRequestService.requestEquipmentInfo(order.getEquipmentId()).block();
-            System.out.println(equipmentDto);
-            BigDecimal pricePerHour = equipmentDto.getPricePerHour();
+        Long equipmentId = order.getEquipmentId();
+        Boolean isAvailable = webRequestService.requestCheckAvailability(order).block();
+        if (Boolean.TRUE.equals(isAvailable)){
+            EquipmentDto requestedEquipmentInfo = webRequestService.requestEquipmentInfo(equipmentId).block();
+            BigDecimal pricePerHour = requestedEquipmentInfo.getPricePerHour();
             BigDecimal totalCost = OrderTotalCostCalculator.calculateTotalCost(pricePerHour, order);
             order.setState(OrderState.BOOKED);
             order.setTotalCost(totalCost);
-            System.out.println(order);
             Order savedOrder = orderRepository.save(order);
             return mapper.entityToGetDto(savedOrder);
         }else {
-            throw new RuntimeException("Not available");
+            throw new IncorrectRequestException(ServiceLayerExceptionCodes.NOT_AVAILABLE);
         }
     }
 
     @Override
     public OrderGetDto getById(Long id) {
-        return OrderStructMapper.INSTANCE.entityToGetDto(orderRepository.getReferenceById(id));
+        try {
+            return OrderStructMapper.INSTANCE.entityToGetDto(orderRepository.getReferenceById(id));
+        } catch (EntityNotFoundException exception) {
+            throw new CustomNotFoundException(ServiceLayerExceptionCodes.NOT_FOUND_ID, id);
+        }
     }
 
     @Override
-    public List<OrderGetDto> getOrdersByEquipmentIdAtPeriod(Long equipmentId, LocalDateTime startTime, LocalDateTime endTime) {
-        if (startTime.isAfter(endTime)){
+    public List<OrderGetDto> getOrdersByEquipmentIdAtPeriod(Long equipmentId, LocalDateTime
+            startTime, LocalDateTime endTime) {
+        if (startTime.isAfter(endTime)) {
             return Collections.emptyList();
         }
         List<Order> ordersByEquipmentIdAtPeriod = orderRepository.findOrdersByEquipmentIdAndPeriod(equipmentId,
@@ -70,6 +73,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderGetDto> getAll() {
         return OrderStructMapper.INSTANCE.toListDto(orderRepository.findAll());
+    }
+
+    @Override
+    public OrderGetDto payOrder(Long userId, Long orderId) {
+        return null; //todo implement with checking balance and security
     }
 
 

@@ -1,13 +1,10 @@
 package com.roger.orderservice.service;
 
 import com.roger.orderservice.dto.OrderGetDto;
-import com.roger.orderservice.dto.RentPeriodDto;
 import com.roger.orderservice.dto.SaveOrderDto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 public interface OrderService {
     OrderGetDto createOrder(SaveOrderDto saveOrderDto);
@@ -18,4 +15,5 @@ public interface OrderService {
 
     List<OrderGetDto> getAll();
 
+    OrderGetDto payOrder(Long userId, Long orderId);
 }

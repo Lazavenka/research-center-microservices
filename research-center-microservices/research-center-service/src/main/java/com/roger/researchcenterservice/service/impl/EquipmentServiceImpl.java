@@ -4,6 +4,8 @@ import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.dto.EquipmentGetDto;
 import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
 import com.roger.researchcenterservice.dto.EquipmentInfoDto;
+import com.roger.researchcenterservice.exception.CustomNotFoundException;
+import com.roger.researchcenterservice.exception.IncorrectRequestException;
 import com.roger.researchcenterservice.mapper.EquipmentStructMapper;
 import com.roger.researchcenterservice.model.Equipment;
 import com.roger.researchcenterservice.model.EquipmentType;
@@ -12,7 +14,10 @@ import com.roger.researchcenterservice.repository.EquipmentRepository;
 import com.roger.researchcenterservice.repository.EquipmentTypeRepository;
 import com.roger.researchcenterservice.repository.LaboratoryRepository;
 import com.roger.researchcenterservice.service.EquipmentService;
+import com.roger.researchcenterservice.service.ServiceLayerExceptionCodes;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +37,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         String equipmentName = saveDto.getName();
         Optional<Equipment> optionalEquipment = equipmentRepository.findByName(equipmentName);
         if (optionalEquipment.isPresent()) {
-            throw new RuntimeException("EQUIPMENT IS PRESENT"); //todo make custom exception
+            throw new IncorrectRequestException(ServiceLayerExceptionCodes.EQUIPMENT_EXISTS);
         }
         Equipment equipment = mapper.saveDtoToEntity(saveDto);
         Laboratory laboratory = laboratoryRepository.getReferenceById(saveDto.getLaboratoryId());
@@ -44,7 +49,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public EquipmentGetDto getById(Long id) {
-        return mapper.toEquipmentGetDto(equipmentRepository.getReferenceById(id));
+        try {
+            return mapper.toEquipmentGetDto(equipmentRepository.getReferenceById(id));
+        } catch (EntityNotFoundException ex){
+            throw new CustomNotFoundException(ServiceLayerExceptionCodes.NOT_FOUND_EQUIPMENT_ID, id);
+        }
     }
 
     @Override
@@ -84,7 +93,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public EquipmentInfoDto getByIdForInfo(Long id) {
-        return mapper.entityToEquipmentInfoDto(equipmentRepository.getReferenceById(id));
+        try {
+            return mapper.entityToEquipmentInfoDto(equipmentRepository.getReferenceById(id));
+        } catch (EntityNotFoundException ex){
+            throw new CustomNotFoundException(ServiceLayerExceptionCodes.NOT_FOUND_EQUIPMENT_ID, id);
+        }
     }
 
 }

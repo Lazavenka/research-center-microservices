@@ -7,6 +7,7 @@ import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
 import com.roger.researchcenterservice.service.EquipmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +31,13 @@ public class EquipmentController {
     }
 
     @GetMapping(value = "/equipment")
-    public List<EquipmentGetDto> getAll(){
-        return equipmentService.getAll();
+    public ResponseEntity<List<EquipmentGetDto>> getAll(){
+        List<EquipmentGetDto> equipmentGetDtoList = equipmentService.getAll();
+        if(equipmentGetDtoList.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(equipmentGetDtoList);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(equipmentGetDtoList);
+
     }
 
     @GetMapping(value = "/equipment/{id}")
