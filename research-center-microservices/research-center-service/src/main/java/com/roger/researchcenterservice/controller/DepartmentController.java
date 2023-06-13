@@ -4,7 +4,6 @@ import com.roger.researchcenterservice.dto.DepartmentSaveDto;
 import com.roger.researchcenterservice.dto.FullDepartmentDto;
 import com.roger.researchcenterservice.dto.SlimDepartmentDto;
 import com.roger.researchcenterservice.service.DepartmentService;
-import com.roger.researchcenterservice.service.impl.DepartmentServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

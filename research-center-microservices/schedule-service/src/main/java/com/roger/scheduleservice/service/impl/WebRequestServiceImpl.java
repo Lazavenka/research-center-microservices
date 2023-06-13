@@ -1,9 +1,13 @@
 package com.roger.scheduleservice.service.impl;
 
 import com.roger.scheduleservice.dto.EquipmentDto;
+import com.roger.scheduleservice.exception.CustomNotFoundException;
+import com.roger.scheduleservice.exception.CustomWebServiceException;
 import com.roger.scheduleservice.model.Order;
+import com.roger.scheduleservice.service.ServiceLayerExceptionCodes;
 import com.roger.scheduleservice.service.WebRequestService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -22,8 +26,17 @@ public class WebRequestServiceImpl implements WebRequestService {
         String uri = "http://localhost:8080/api/v1/equipment/" + equipmentId.toString()
                 +"/info";
         return webClient.get()
-                .uri(uri).retrieve().bodyToMono(EquipmentDto.class);
-
+                .uri(uri)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        clientResponse -> {
+                            throw new CustomNotFoundException(ServiceLayerExceptionCodes.NOT_FOUND_EQUIPMENT_ID, equipmentId);
+                        })
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        clientResponse -> {
+                            throw new CustomWebServiceException(ServiceLayerExceptionCodes.INTERNAL_SERVICE_ERROR + " " + clientResponse.statusCode());
+                        })
+                .bodyToMono(EquipmentDto.class);
     }
 
     public Mono<List<Order>> getOrderListByEquipmentIdInPeriod(Long equipmentId, LocalDateTime startPeriod, LocalDateTime endPeriod) {
@@ -37,6 +50,14 @@ public class WebRequestServiceImpl implements WebRequestService {
         return webClient.get()
                 .uri(uri)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        clientResponse -> {
+                            throw new CustomNotFoundException(ServiceLayerExceptionCodes.NOT_FOUND_ORDERS, equipmentId);
+                        })
+                .onStatus(HttpStatusCode::is5xxServerError,
+                        clientResponse -> {
+                            throw new CustomWebServiceException(ServiceLayerExceptionCodes.INTERNAL_SERVICE_ERROR);
+                        })
                 .bodyToFlux(Order.class)
                 .collectList();
     }

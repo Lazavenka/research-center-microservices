@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EquipmentGetDto {
+public class EquipmentGetDto implements DtoEntity{
     private Long id;
     private String name;
     private String description;

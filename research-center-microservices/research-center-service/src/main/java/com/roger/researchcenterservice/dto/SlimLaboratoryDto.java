@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SlimLaboratoryDto {
+public class SlimLaboratoryDto implements DtoEntity{
     private long id;
     private String name;
     private String description;

@@ -3,7 +3,6 @@ package com.roger.researchcenterservice.controller;
 import com.roger.researchcenterservice.dto.EquipmentInfoDto;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.dto.EquipmentGetDto;
-import com.roger.researchcenterservice.dto.EquipmentUpdateDto;
 import com.roger.researchcenterservice.service.EquipmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,7 +54,7 @@ public class EquipmentController {
         return equipmentService.getByLaboratoryId(id);
     }
     @PutMapping(value = "/equipment/{id}")
-    public EquipmentGetDto update(@RequestBody EquipmentUpdateDto updateDto, @PathVariable Long id){
+    public EquipmentGetDto update(@RequestBody EquipmentSaveDto updateDto, @PathVariable Long id){
         return equipmentService.update(updateDto, id);
     }
 

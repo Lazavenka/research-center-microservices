@@ -9,6 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 public class ApiErrorResponse {
     private String errorMessage;
     private String errorCode;
+    private String originalErrorMessage;
 
     public ApiErrorResponse(String errorMessage, String errorCode) {
         this.errorMessage = errorMessage;
@@ -49,7 +50,6 @@ public class ApiErrorResponse {
     public static ApiErrorResponse buildResponse(ApiErrorResponseStatus apiErrorResponseStatus, MessageSource messageSource, long id) {
         String code = apiErrorResponseStatus.getErrorCode();
         String message = String.format(messageSource.getMessage(code, null, LocaleContextHolder.getLocale()),id);
-        System.out.println(message);
         return new ApiErrorResponse(message, code);
     }
 
@@ -67,5 +67,13 @@ public class ApiErrorResponse {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public String getOriginalErrorMessage() {
+        return originalErrorMessage;
+    }
+
+    public void setOriginalErrorMessage(Throwable originalError) {
+        this.originalErrorMessage = originalError.getMessage();
     }
 }

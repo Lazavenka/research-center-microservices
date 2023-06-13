@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EquipmentTypeSaveDto {
+public class EquipmentTypeSaveDto implements DtoEntity{
     private String name;
     private String description;
 }

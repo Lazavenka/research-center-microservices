@@ -2,7 +2,9 @@ package com.roger.scheduleservice.service.impl;
 
 import com.roger.scheduleservice.dto.EquipmentDto;
 
+import com.roger.scheduleservice.exception.IncorrectRequestException;
 import com.roger.scheduleservice.model.*;
+import com.roger.scheduleservice.service.ServiceLayerExceptionCodes;
 import com.roger.scheduleservice.service.TimeTableService;
 import com.roger.scheduleservice.validator.InputFieldValidator;
 import lombok.AllArgsConstructor;
@@ -26,27 +28,23 @@ public class TimeTableServiceImpl implements TimeTableService {
 
     @Override
     public EquipmentTimeTable provideEquipmentTimeTable(Long equipmentId, LocalDateTime selectedDay) {
-        EquipmentTimeTable equipmentTimeTable = new EquipmentTimeTable();
         if (!inputFieldValidator.isCorrectId(equipmentId)) {
-            throw new RuntimeException("Equipment ID is not valid!");
+            throw new IncorrectRequestException(ServiceLayerExceptionCodes.INCORRECT_EQUIPMENT_ID);
         }
+        EquipmentTimeTable equipmentTimeTable = new EquipmentTimeTable();
         EquipmentDto selectedEquipment = requestService.getEquipmentByIdFromResearchCenterService(equipmentId).block();
-        System.out.println(selectedEquipment);
-        if (selectedEquipment == null){
-            throw new RuntimeException("Equipment not found!");
-        }
+
         equipmentTimeTable.setEquipment(selectedEquipment);
 
         if (selectedDay.getDayOfWeek() == DayOfWeek.SATURDAY ||
                 selectedDay.getDayOfWeek() == DayOfWeek.SUNDAY) {
-            //LOGGER.log(Level.DEBUG, "Selected date={} is before now() or the day is SATURDAY or SUNDAY", selectedDay);
             return equipmentTimeTable;
         }
         buildTimeTable(equipmentTimeTable, selectedDay);
-        List<Order> ordersByEquipmentIdOnSelectedDay = requestService.getOrderListByEquipmentIdInPeriod(equipmentId, selectedDay, selectedDay.plusDays(1)).block();
+        List<Order> ordersByEquipmentIdOnSelectedDay = requestService
+                .getOrderListByEquipmentIdInPeriod(equipmentId, selectedDay, selectedDay.plusDays(1)).block();
 
-        if (ordersByEquipmentIdOnSelectedDay == null ||
-        ordersByEquipmentIdOnSelectedDay.isEmpty()){
+        if (ordersByEquipmentIdOnSelectedDay == null || ordersByEquipmentIdOnSelectedDay.isEmpty()){
             return equipmentTimeTable;
         } else {
             setAvailability(equipmentTimeTable.getWorkTimePeriods(), ordersByEquipmentIdOnSelectedDay);

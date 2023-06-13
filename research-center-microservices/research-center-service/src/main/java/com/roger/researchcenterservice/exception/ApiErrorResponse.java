@@ -22,7 +22,6 @@ public class ApiErrorResponse {
      * Error messages with appropriate error code (key) must be presented in .properties file
      *
      * @param apiErrorResponseStatus enum which contains error code (key)
-     * @param messageSource instance of {@link MessageSource} class configured in {@link com.roger.orderservice.config.OrderServiceConfig}
      * @return ApiErrorResponse
      *
      */
@@ -40,7 +39,6 @@ public class ApiErrorResponse {
      * Method formats message and insert id value instead of %d in error message.
      *
      * @param apiErrorResponseStatus enum which contains error code (key)
-     * @param messageSource instance of {@link MessageSource} class configured in {@link com.roger.orderservice.config.OrderServiceConfig}
      * @param id long value of id to format error message
      * @return ApiErrorResponse
      *
@@ -49,7 +47,6 @@ public class ApiErrorResponse {
     public static ApiErrorResponse buildResponse(ApiErrorResponseStatus apiErrorResponseStatus, MessageSource messageSource, long id) {
         String code = apiErrorResponseStatus.getErrorCode();
         String message = String.format(messageSource.getMessage(code, null, LocaleContextHolder.getLocale()),id);
-        System.out.println(message);
         return new ApiErrorResponse(message, code);
     }
 

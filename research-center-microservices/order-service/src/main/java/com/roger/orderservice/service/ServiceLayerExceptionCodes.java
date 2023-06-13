@@ -7,6 +7,7 @@ public class ServiceLayerExceptionCodes {
 
     public static final String INCORRECT_CLIENT_ID = "40001";
     public static final String INCORRECT_EQUIPMENT_ID = "40002";
+    public static final String INCORRECT_ID = "40003";
     public static final String END_TIME_BEFORE_START_TIME = "40004";
     public static final String NOT_AVAILABLE = "40011";
     public static final String NOT_FOUND_ID = "40401";

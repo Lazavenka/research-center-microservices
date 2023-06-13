@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DepartmentSaveDto {
+public class DepartmentSaveDto implements DtoEntity{
     private String name;
     private String description;
     private String address;

@@ -1,8 +1,9 @@
 package com.roger.researchcenterservice.controller;
 
-import com.roger.researchcenterservice.dto.*;
+import com.roger.researchcenterservice.dto.FullLaboratoryDto;
+import com.roger.researchcenterservice.dto.LaboratorySaveDto;
+import com.roger.researchcenterservice.dto.SlimLaboratoryDto;
 import com.roger.researchcenterservice.service.LaboratoryService;
-import com.roger.researchcenterservice.service.impl.LaboratoryServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

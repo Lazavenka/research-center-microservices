@@ -52,8 +52,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderGetDto getById(Long id) {
+        validator.validateId(id);
         try {
-            return OrderStructMapper.INSTANCE.entityToGetDto(orderRepository.getReferenceById(id));
+            return mapper.entityToGetDto(orderRepository.getReferenceById(id));
         } catch (EntityNotFoundException exception) {
             throw new CustomNotFoundException(ServiceLayerExceptionCodes.NOT_FOUND_ID, id);
         }
@@ -67,12 +68,12 @@ public class OrderServiceImpl implements OrderService {
         }
         List<Order> ordersByEquipmentIdAtPeriod = orderRepository.findOrdersByEquipmentIdAndPeriod(equipmentId,
                 startTime, endTime);
-        return ordersByEquipmentIdAtPeriod.stream().map(OrderStructMapper.INSTANCE::entityToGetDto).toList();
+        return ordersByEquipmentIdAtPeriod.stream().map(mapper::entityToGetDto).toList();
     }
 
     @Override
     public List<OrderGetDto> getAll() {
-        return OrderStructMapper.INSTANCE.toListDto(orderRepository.findAll());
+        return mapper.toListDto(orderRepository.findAll());
     }
 
     @Override

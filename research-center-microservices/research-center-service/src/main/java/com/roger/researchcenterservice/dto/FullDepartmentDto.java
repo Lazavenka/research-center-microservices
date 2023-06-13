@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FullDepartmentDto {
+public class FullDepartmentDto implements DtoEntity{
     private long id;
     private String name;
     private String description;

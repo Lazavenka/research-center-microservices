@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FullEquipmentTypeDto {
+public class FullEquipmentTypeDto implements DtoEntity{
 
     private String name;
     private String description;

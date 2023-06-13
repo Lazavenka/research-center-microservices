@@ -3,7 +3,6 @@ package com.roger.researchcenterservice.controller;
 import com.roger.researchcenterservice.dto.FullEquipmentTypeDto;
 import com.roger.researchcenterservice.dto.SlimEquipmentTypeGetDto;
 import com.roger.researchcenterservice.service.EquipmentTypeService;
-import com.roger.researchcenterservice.service.impl.EquipmentTypeServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EquipmentSaveDto {
+public class EquipmentSaveDto implements DtoEntity{
     private String name;
     private String description;
     private String imageFilePath;

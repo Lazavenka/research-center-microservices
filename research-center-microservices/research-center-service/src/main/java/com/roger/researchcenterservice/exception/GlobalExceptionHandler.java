@@ -19,7 +19,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleNotFoundException(CustomNotFoundException ex){
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.getResponseStatusFromException(ex);
         long notFoundId = ex.getId();
-        System.out.println(notFoundId);
         ApiErrorResponse apiErrorResponse = notFoundId > 0 ? ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource, notFoundId)
                 : ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())

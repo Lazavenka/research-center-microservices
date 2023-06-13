@@ -1,6 +1,5 @@
 package com.roger.researchcenterservice.service;
 
-import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.dto.EquipmentTypeSaveDto;
 import com.roger.researchcenterservice.dto.FullEquipmentTypeDto;
 import com.roger.researchcenterservice.dto.SlimEquipmentTypeGetDto;
