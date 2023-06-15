@@ -12,6 +12,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/research-center-microservices" />
+            <option value="$PROJECT_DIR$/research-center-microservices/discovery-server" />
             <option value="$PROJECT_DIR$/research-center-microservices/order-service" />
             <option value="$PROJECT_DIR$/research-center-microservices/research-center-service" />
             <option value="$PROJECT_DIR$/research-center-microservices/schedule-service" />
