@@ -11,17 +11,16 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Component
 @AllArgsConstructor
 public class WebRequestServiceImpl implements WebRequestService {
     private WebClient webClient;
 
-    public Mono<Boolean> requestCheckAvailability(Order order) {
+    public boolean requestCheckAvailability(Order order) {
         String uri = "http://localhost:8082/api/v1/equipment/"
                 + order.getEquipmentId() + "/schedule";
-        return webClient.post()
+        return Boolean.TRUE.equals(webClient.post()
                 .uri(uri)
                 .body(BodyInserters.fromValue(order))
                 .retrieve()
@@ -31,13 +30,14 @@ public class WebRequestServiceImpl implements WebRequestService {
                         })
                 .onStatus(HttpStatusCode::is5xxServerError,
                         clientResponse -> {
-                    throw new CustomWebServiceException(ServiceLayerExceptionCodes.INTERNAL_SERVICE_ERROR);
+                            throw new CustomWebServiceException(ServiceLayerExceptionCodes.INTERNAL_SERVICE_ERROR);
                         })
-                .bodyToMono(Boolean.class);
+                .bodyToMono(Boolean.class)
+                .block());
     }
 
     @Override
-    public Mono<EquipmentDto> requestEquipmentInfo(Long equipmentId) {
+    public EquipmentDto requestEquipmentInfo(Long equipmentId) {
         String uri = "http://localhost:8080/api/v1/equipment/" + equipmentId.toString()
                 + "/info";
         return webClient.get()
@@ -51,7 +51,8 @@ public class WebRequestServiceImpl implements WebRequestService {
                         clientResponse -> {
                             throw new CustomWebServiceException(ServiceLayerExceptionCodes.INTERNAL_SERVICE_ERROR);
                         })
-                .bodyToMono(EquipmentDto.class);
+                .bodyToMono(EquipmentDto.class)
+                .block();
 
     }
 }
