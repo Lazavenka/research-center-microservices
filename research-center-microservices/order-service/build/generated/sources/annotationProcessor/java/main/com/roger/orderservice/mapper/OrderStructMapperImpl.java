@@ -1,8 +1,8 @@
 package com.roger.orderservice.mapper;
 
-import com.roger.orderservice.dto.OrderGetDto;
 import com.roger.orderservice.dto.SaveOrderDto;
 import com.roger.orderservice.model.Order;
+import com.roger.researchcenter.dto.OrderGetDto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-14T14:18:43+0200",
+    date = "2023-06-15T22:56:09+0200",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.1.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 @Component

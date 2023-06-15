@@ -1,8 +1,8 @@
 package com.roger.orderservice.util;
 
+import com.roger.researchcenter.exception.IncorrectRequestException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.orderservice.dto.SaveOrderDto;
-import com.roger.orderservice.exception.IncorrectRequestException;
-import com.roger.orderservice.service.ServiceLayerExceptionCodes;
 
 public interface CustomValidator {
     boolean validate(SaveOrderDto saveOrderDto);

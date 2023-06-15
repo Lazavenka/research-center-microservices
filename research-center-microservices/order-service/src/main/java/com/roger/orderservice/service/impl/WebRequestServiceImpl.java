@@ -1,10 +1,10 @@
 package com.roger.orderservice.service.impl;
 
-import com.roger.orderservice.dto.EquipmentDto;
-import com.roger.orderservice.exception.CustomNotFoundException;
-import com.roger.orderservice.exception.CustomWebServiceException;
+import com.roger.researchcenter.dto.EquipmentDto;
+import com.roger.researchcenter.exception.CustomNotFoundException;
+import com.roger.researchcenter.exception.CustomWebServiceException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.orderservice.model.Order;
-import com.roger.orderservice.service.ServiceLayerExceptionCodes;
 import com.roger.orderservice.service.WebRequestService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatusCode;

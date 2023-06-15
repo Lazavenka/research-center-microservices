@@ -1,10 +1,10 @@
 package com.roger.researchcenterservice.service.impl;
 
+import com.roger.researchcenter.dto.EquipmentDto;
+import com.roger.researchcenter.exception.CustomNotFoundException;
+import com.roger.researchcenter.exception.IncorrectRequestException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
-import com.roger.researchcenterservice.dto.EquipmentGetDto;
-import com.roger.researchcenterservice.dto.EquipmentInfoDto;
-import com.roger.researchcenterservice.exception.CustomNotFoundException;
-import com.roger.researchcenterservice.exception.IncorrectRequestException;
 import com.roger.researchcenterservice.mapper.EquipmentStructMapper;
 import com.roger.researchcenterservice.model.Equipment;
 import com.roger.researchcenterservice.model.EquipmentType;
@@ -13,7 +13,6 @@ import com.roger.researchcenterservice.repository.EquipmentRepository;
 import com.roger.researchcenterservice.repository.EquipmentTypeRepository;
 import com.roger.researchcenterservice.repository.LaboratoryRepository;
 import com.roger.researchcenterservice.service.EquipmentService;
-import com.roger.researchcenterservice.service.ServiceLayerExceptionCodes;
 import com.roger.researchcenterservice.validator.DtoFieldValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     private final EquipmentStructMapper mapper;
 
     @Override
-    public EquipmentGetDto create(EquipmentSaveDto saveDto) {
+    public EquipmentDto create(EquipmentSaveDto saveDto) {
         validator.validate(saveDto);
         String equipmentName = saveDto.getName();
         Optional<Equipment> optionalEquipment = equipmentRepository.findByName(equipmentName);
@@ -48,17 +47,17 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public EquipmentGetDto getById(Long id) {
+    public EquipmentDto getById(Long id) {
         return mapper.toEquipmentGetDto(tryFindEquipmentById(id));
     }
 
     @Override
-    public List<EquipmentGetDto> getAll() {
+    public List<EquipmentDto> getAll() {
         return mapper.toListEquipmentGetDto(equipmentRepository.findAll());
     }
 
     @Override
-    public EquipmentGetDto update(EquipmentSaveDto dtoEntity, Long id) {
+    public EquipmentDto update(EquipmentSaveDto dtoEntity, Long id) {
         Equipment equipment = tryFindEquipmentById(id);
         validator.validate(dtoEntity);
         if (equipment.getLaboratory().getId() != dtoEntity.getLaboratoryId()) {
@@ -85,14 +84,14 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
-    public List<EquipmentGetDto> getByLaboratoryId(Long laboratoryId) {
+    public List<EquipmentDto> getByLaboratoryId(Long laboratoryId) {
         validator.validateId(laboratoryId);
         return mapper.toListEquipmentGetDto(equipmentRepository.getEquipmentByLaboratoryId(laboratoryId));
     }
 
     @Override
-    public EquipmentInfoDto getByIdForInfo(Long id) {
-        return mapper.entityToEquipmentInfoDto(tryFindEquipmentById(id));
+    public EquipmentDto getByIdForInfo(Long id) {
+        return mapper.toEquipmentGetDto(tryFindEquipmentById(id));
     }
 
     private Equipment tryFindEquipmentById(Long equipmentId) {

@@ -1,5 +1,6 @@
 package com.roger.orderservice.model;
 
+import com.roger.researchcenter.dto.OrderState;
 import jakarta.persistence.*;
 import lombok.*;
 

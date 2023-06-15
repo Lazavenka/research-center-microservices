@@ -1,7 +1,7 @@
 package com.roger.researchcenterservice.validator;
 
-import com.roger.researchcenterservice.exception.IncorrectRequestException;
-import com.roger.researchcenterservice.service.ServiceLayerExceptionCodes;
+import com.roger.researchcenter.exception.IncorrectRequestException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;

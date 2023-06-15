@@ -1,8 +1,8 @@
 package com.roger.researchcenterservice.validator;
 
+import com.roger.researchcenter.exception.IncorrectRequestException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.researchcenterservice.dto.DtoEntity;
-import com.roger.researchcenterservice.exception.IncorrectRequestException;
-import com.roger.researchcenterservice.service.ServiceLayerExceptionCodes;
 
 public interface DtoFieldValidator<T extends DtoEntity> {
     boolean validate(T updateDto);

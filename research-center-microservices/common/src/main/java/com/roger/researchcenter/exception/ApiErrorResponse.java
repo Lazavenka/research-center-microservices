@@ -1,4 +1,4 @@
-package com.roger.orderservice.exception;
+package com.roger.researchcenter.exception;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -9,7 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 public class ApiErrorResponse {
     private String errorMessage;
     private String errorCode;
-    private String originalErrorMessage;
+    private String originalThrowable;
 
     public ApiErrorResponse(String errorMessage, String errorCode) {
         this.errorMessage = errorMessage;
@@ -23,7 +23,6 @@ public class ApiErrorResponse {
      * Error messages with appropriate error code (key) must be presented in .properties file
      *
      * @param apiErrorResponseStatus enum which contains error code (key)
-     * @param messageSource instance of {@link MessageSource} class configured in {@link com.roger.orderservice.config.OrderServiceConfig}
      * @return ApiErrorResponse
      *
      */
@@ -41,7 +40,6 @@ public class ApiErrorResponse {
      * Method formats message and insert id value instead of %d in error message.
      *
      * @param apiErrorResponseStatus enum which contains error code (key)
-     * @param messageSource instance of {@link MessageSource} class configured in {@link com.roger.orderservice.config.OrderServiceConfig}
      * @param id long value of id to format error message
      * @return ApiErrorResponse
      *
@@ -70,10 +68,10 @@ public class ApiErrorResponse {
     }
 
     public String getOriginalErrorMessage() {
-        return originalErrorMessage;
+        return originalThrowable;
     }
 
-    public void setOriginalErrorMessage(Throwable originalError) {
-        this.originalErrorMessage = originalError.getMessage();
+    public void setOriginalThrowable(Throwable originalError) {
+        this.originalThrowable = originalError.getMessage();
     }
 }

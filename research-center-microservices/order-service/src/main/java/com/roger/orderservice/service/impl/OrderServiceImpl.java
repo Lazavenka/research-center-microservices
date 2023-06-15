@@ -1,16 +1,16 @@
 package com.roger.orderservice.service.impl;
 
-import com.roger.orderservice.dto.EquipmentDto;
-import com.roger.orderservice.dto.OrderGetDto;
+import com.roger.researchcenter.dto.EquipmentDto;
+import com.roger.researchcenter.dto.OrderGetDto;
+import com.roger.researchcenter.dto.OrderState;
+import com.roger.researchcenter.exception.CustomNotFoundException;
+import com.roger.researchcenter.exception.IncorrectRequestException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.orderservice.dto.SaveOrderDto;
-import com.roger.orderservice.exception.CustomNotFoundException;
-import com.roger.orderservice.exception.IncorrectRequestException;
 import com.roger.orderservice.mapper.OrderStructMapper;
 import com.roger.orderservice.model.Order;
-import com.roger.orderservice.model.OrderState;
 import com.roger.orderservice.repository.OrderRepository;
 import com.roger.orderservice.service.OrderService;
-import com.roger.orderservice.service.ServiceLayerExceptionCodes;
 import com.roger.orderservice.service.WebRequestService;
 import com.roger.orderservice.util.OrderTotalCostCalculator;
 import com.roger.orderservice.util.impl.OrderValidator;

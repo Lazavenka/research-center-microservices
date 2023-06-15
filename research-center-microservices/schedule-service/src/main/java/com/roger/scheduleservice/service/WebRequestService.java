@@ -1,7 +1,7 @@
 package com.roger.scheduleservice.service;
 
-import com.roger.microservices.dto.EquipmentDto;
-import com.roger.microservices.dto.OrderGetDto;
+import com.roger.researchcenter.dto.EquipmentDto;
+import com.roger.researchcenter.dto.OrderGetDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.roger.scheduleservice.data;
 
-import com.roger.microservices.dto.EquipmentDto;
+import com.roger.researchcenter.dto.EquipmentDto;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;

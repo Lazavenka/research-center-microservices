@@ -1,8 +1,7 @@
 package com.roger.scheduleservice.data;
 
-import com.roger.microservices.dto.OrderGetDto;
+import com.roger.researchcenter.dto.OrderState;
 import com.roger.scheduleservice.model.Order;
-import com.roger.scheduleservice.model.OrderState;
 
 
 import java.math.BigDecimal;

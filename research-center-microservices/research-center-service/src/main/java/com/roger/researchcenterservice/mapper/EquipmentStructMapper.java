@@ -1,5 +1,6 @@
 package com.roger.researchcenterservice.mapper;
 
+import com.roger.researchcenter.dto.EquipmentDto;
 import com.roger.researchcenterservice.dto.*;
 import com.roger.researchcenterservice.model.Equipment;
 import org.mapstruct.*;
@@ -16,13 +17,9 @@ public interface EquipmentStructMapper {
 
     @Mapping(target = "equipmentType", expression = "java(equipment.getEquipmentType().getName())")
     @Mapping(target = "laboratoryId", expression = "java(equipment.getLaboratory().getId())")
-    EquipmentGetDto toEquipmentGetDto(Equipment equipment);
-    List<EquipmentGetDto> toListEquipmentGetDto(List<Equipment> equipment);
+    EquipmentDto toEquipmentGetDto(Equipment equipment);
+    List<EquipmentDto> toListEquipmentGetDto(List<Equipment> equipment);
 
     Equipment saveDtoToEntity(EquipmentSaveDto request);
-
-    @Mapping(target = "laboratoryId", expression = "java(equipment.getLaboratory().getId())")
-    EquipmentInfoDto entityToEquipmentInfoDto(Equipment equipment);
-    List<EquipmentInfoDto> toListEquipmentInfoDto(List<Equipment> equipment);
 
 }

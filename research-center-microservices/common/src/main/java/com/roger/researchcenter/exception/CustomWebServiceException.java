@@ -1,4 +1,4 @@
-package com.roger.orderservice.exception;
+package com.roger.researchcenter.exception;
 
 public class CustomWebServiceException extends RuntimeException{
 

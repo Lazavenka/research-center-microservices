@@ -1,4 +1,4 @@
-package com.roger.researchcenterservice.dto;
+package com.roger.researchcenter.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +12,15 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EquipmentInfoDto implements DtoEntity{
+public class EquipmentDto {
+
     private Long id;
     private String name;
     private String description;
     private String imageFilePath;
+    private String equipmentType;
     private Long laboratoryId;
     private BigDecimal pricePerHour;
     private LocalTime averageResearchTime;
+
 }

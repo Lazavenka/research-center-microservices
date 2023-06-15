@@ -1,6 +1,6 @@
 package com.roger.orderservice.mapper;
 
-import com.roger.orderservice.dto.OrderGetDto;
+import com.roger.researchcenter.dto.OrderGetDto;
 import com.roger.orderservice.dto.SaveOrderDto;
 import com.roger.orderservice.model.Order;
 import org.mapstruct.InjectionStrategy;

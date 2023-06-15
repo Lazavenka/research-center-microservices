@@ -1,7 +1,6 @@
 package com.roger.researchcenterservice.mapper;
 
-import com.roger.researchcenterservice.dto.EquipmentGetDto;
-import com.roger.researchcenterservice.dto.EquipmentInfoDto;
+import com.roger.researchcenter.dto.EquipmentDto;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
 import com.roger.researchcenterservice.model.Equipment;
 import java.util.ArrayList;
@@ -11,41 +10,40 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-06-14T14:18:31+0200",
+    date = "2023-06-15T22:36:14+0200",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.1.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
 @Component
 public class EquipmentStructMapperImpl implements EquipmentStructMapper {
 
     @Override
-    public EquipmentGetDto toEquipmentGetDto(Equipment equipment) {
+    public EquipmentDto toEquipmentGetDto(Equipment equipment) {
         if ( equipment == null ) {
             return null;
         }
 
-        EquipmentGetDto.EquipmentGetDtoBuilder equipmentGetDto = EquipmentGetDto.builder();
+        EquipmentDto.EquipmentDtoBuilder equipmentDto = EquipmentDto.builder();
 
-        equipmentGetDto.id( equipment.getId() );
-        equipmentGetDto.name( equipment.getName() );
-        equipmentGetDto.description( equipment.getDescription() );
-        equipmentGetDto.imageFilePath( equipment.getImageFilePath() );
-        equipmentGetDto.state( equipment.getState() );
-        equipmentGetDto.pricePerHour( equipment.getPricePerHour() );
-        equipmentGetDto.averageResearchTime( equipment.getAverageResearchTime() );
+        equipmentDto.id( equipment.getId() );
+        equipmentDto.name( equipment.getName() );
+        equipmentDto.description( equipment.getDescription() );
+        equipmentDto.imageFilePath( equipment.getImageFilePath() );
+        equipmentDto.pricePerHour( equipment.getPricePerHour() );
+        equipmentDto.averageResearchTime( equipment.getAverageResearchTime() );
 
-        equipmentGetDto.equipmentType( equipment.getEquipmentType().getName() );
-        equipmentGetDto.laboratoryId( equipment.getLaboratory().getId() );
+        equipmentDto.equipmentType( equipment.getEquipmentType().getName() );
+        equipmentDto.laboratoryId( equipment.getLaboratory().getId() );
 
-        return equipmentGetDto.build();
+        return equipmentDto.build();
     }
 
     @Override
-    public List<EquipmentGetDto> toListEquipmentGetDto(List<Equipment> equipment) {
+    public List<EquipmentDto> toListEquipmentGetDto(List<Equipment> equipment) {
         if ( equipment == null ) {
             return null;
         }
 
-        List<EquipmentGetDto> list = new ArrayList<EquipmentGetDto>( equipment.size() );
+        List<EquipmentDto> list = new ArrayList<EquipmentDto>( equipment.size() );
         for ( Equipment equipment1 : equipment ) {
             list.add( toEquipmentGetDto( equipment1 ) );
         }
@@ -69,39 +67,5 @@ public class EquipmentStructMapperImpl implements EquipmentStructMapper {
         equipment.averageResearchTime( request.getAverageResearchTime() );
 
         return equipment.build();
-    }
-
-    @Override
-    public EquipmentInfoDto entityToEquipmentInfoDto(Equipment equipment) {
-        if ( equipment == null ) {
-            return null;
-        }
-
-        EquipmentInfoDto.EquipmentInfoDtoBuilder equipmentInfoDto = EquipmentInfoDto.builder();
-
-        equipmentInfoDto.id( equipment.getId() );
-        equipmentInfoDto.name( equipment.getName() );
-        equipmentInfoDto.description( equipment.getDescription() );
-        equipmentInfoDto.imageFilePath( equipment.getImageFilePath() );
-        equipmentInfoDto.pricePerHour( equipment.getPricePerHour() );
-        equipmentInfoDto.averageResearchTime( equipment.getAverageResearchTime() );
-
-        equipmentInfoDto.laboratoryId( equipment.getLaboratory().getId() );
-
-        return equipmentInfoDto.build();
-    }
-
-    @Override
-    public List<EquipmentInfoDto> toListEquipmentInfoDto(List<Equipment> equipment) {
-        if ( equipment == null ) {
-            return null;
-        }
-
-        List<EquipmentInfoDto> list = new ArrayList<EquipmentInfoDto>( equipment.size() );
-        for ( Equipment equipment1 : equipment ) {
-            list.add( entityToEquipmentInfoDto( equipment1 ) );
-        }
-
-        return list;
     }
 }

@@ -1,4 +1,4 @@
-package com.roger.microservices.exception;
+package com.roger.researchcenter.exception;
 
 public class ServiceLayerExceptionCodes {
     private ServiceLayerExceptionCodes(){}

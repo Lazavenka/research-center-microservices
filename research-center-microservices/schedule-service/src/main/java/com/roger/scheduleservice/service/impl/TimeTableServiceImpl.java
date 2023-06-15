@@ -1,9 +1,10 @@
 package com.roger.scheduleservice.service.impl;
 
-import com.roger.microservices.dto.EquipmentDto;
-import com.roger.microservices.dto.OrderGetDto;
-import com.roger.microservices.exception.IncorrectRequestException;
-import com.roger.microservices.exception.ServiceLayerExceptionCodes;
+import com.roger.researchcenter.dto.EquipmentDto;
+import com.roger.researchcenter.dto.OrderGetDto;
+import com.roger.researchcenter.dto.OrderState;
+import com.roger.researchcenter.exception.IncorrectRequestException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 
 import com.roger.scheduleservice.mapper.OrderStructMapper;
 import com.roger.scheduleservice.model.*;

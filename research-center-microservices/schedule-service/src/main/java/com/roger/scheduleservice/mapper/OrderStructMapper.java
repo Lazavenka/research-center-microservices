@@ -1,6 +1,6 @@
 package com.roger.scheduleservice.mapper;
 
-import com.roger.microservices.dto.OrderGetDto;
+import com.roger.researchcenter.dto.OrderGetDto;
 import com.roger.scheduleservice.model.Order;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

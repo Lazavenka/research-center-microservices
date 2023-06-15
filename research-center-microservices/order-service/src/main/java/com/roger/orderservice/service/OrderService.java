@@ -1,6 +1,6 @@
 package com.roger.orderservice.service;
 
-import com.roger.orderservice.dto.OrderGetDto;
+import com.roger.researchcenter.dto.OrderGetDto;
 import com.roger.orderservice.dto.SaveOrderDto;
 
 import java.time.LocalDateTime;

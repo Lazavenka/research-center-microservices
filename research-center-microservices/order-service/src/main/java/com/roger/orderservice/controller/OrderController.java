@@ -1,6 +1,6 @@
 package com.roger.orderservice.controller;
 
-import com.roger.orderservice.dto.OrderGetDto;
+import com.roger.researchcenter.dto.OrderGetDto;
 import com.roger.orderservice.dto.SaveOrderDto;
 import com.roger.orderservice.service.OrderService;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.roger.microservices.dto;
+package com.roger.researchcenter.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

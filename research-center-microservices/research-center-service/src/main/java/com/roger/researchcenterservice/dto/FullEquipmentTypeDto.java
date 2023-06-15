@@ -1,5 +1,6 @@
 package com.roger.researchcenterservice.dto;
 
+import com.roger.researchcenter.dto.EquipmentDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,6 @@ public class FullEquipmentTypeDto implements DtoEntity{
 
     private String name;
     private String description;
-    private List<EquipmentGetDto> equipment;
+    private List<EquipmentDto> equipment;
 
 }

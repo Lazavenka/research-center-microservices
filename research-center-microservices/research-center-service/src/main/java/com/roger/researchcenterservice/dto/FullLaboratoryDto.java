@@ -1,5 +1,6 @@
 package com.roger.researchcenterservice.dto;
 
+import com.roger.researchcenter.dto.EquipmentDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +17,5 @@ public class FullLaboratoryDto implements DtoEntity{
     private String description;
     private String location;
     private String imageFilePath;
-    private List<EquipmentGetDto> equipment;
+    private List<EquipmentDto> equipment;
 }

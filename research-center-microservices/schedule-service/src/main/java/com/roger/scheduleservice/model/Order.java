@@ -1,5 +1,6 @@
 package com.roger.scheduleservice.model;
 
+import com.roger.researchcenter.dto.OrderState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

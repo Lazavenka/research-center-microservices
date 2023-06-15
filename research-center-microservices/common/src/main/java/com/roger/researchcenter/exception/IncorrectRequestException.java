@@ -1,9 +1,8 @@
-package com.roger.microservices.exception;
+package com.roger.researchcenter.exception;
 
 
 public class IncorrectRequestException extends RuntimeException{
 
-    private String originalThrowable;
     public IncorrectRequestException(String message) {
         super(message);
     }

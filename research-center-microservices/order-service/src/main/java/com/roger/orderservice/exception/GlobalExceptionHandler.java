@@ -1,7 +1,7 @@
 package com.roger.orderservice.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.roger.orderservice.service.ServiceLayerExceptionCodes;
+import com.roger.researchcenter.exception.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.context.MessageSource;
@@ -60,14 +60,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.METHOD_NOT_ALLOWED_EXCEPTION;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalErrorMessage(ex);
+        response.setOriginalThrowable(ex);
         return ResponseEntity.status(status).body(response);
     }
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.BAD_REQUEST_EXCEPTION;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalErrorMessage(ex);
+        response.setOriginalThrowable(ex);
         return ResponseEntity.status(status).body(response);
     }
     @ExceptionHandler(CustomWebServiceException.class)

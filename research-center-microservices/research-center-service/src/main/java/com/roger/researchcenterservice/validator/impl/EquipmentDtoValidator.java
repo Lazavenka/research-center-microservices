@@ -1,8 +1,8 @@
 package com.roger.researchcenterservice.validator.impl;
 
+import com.roger.researchcenter.exception.IncorrectRequestException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.researchcenterservice.dto.EquipmentSaveDto;
-import com.roger.researchcenterservice.exception.IncorrectRequestException;
-import com.roger.researchcenterservice.service.ServiceLayerExceptionCodes;
 import com.roger.researchcenterservice.validator.DtoFieldValidator;
 import org.springframework.stereotype.Component;
 

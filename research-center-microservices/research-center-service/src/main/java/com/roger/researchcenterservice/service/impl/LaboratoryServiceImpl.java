@@ -1,17 +1,17 @@
 package com.roger.researchcenterservice.service.impl;
 
+import com.roger.researchcenter.exception.CustomNotFoundException;
+import com.roger.researchcenter.exception.IncorrectRequestException;
+import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.researchcenterservice.dto.FullLaboratoryDto;
 import com.roger.researchcenterservice.dto.LaboratorySaveDto;
 import com.roger.researchcenterservice.dto.SlimLaboratoryDto;
-import com.roger.researchcenterservice.exception.CustomNotFoundException;
-import com.roger.researchcenterservice.exception.IncorrectRequestException;
 import com.roger.researchcenterservice.mapper.LaboratoryStructMapper;
 import com.roger.researchcenterservice.model.Department;
 import com.roger.researchcenterservice.model.Laboratory;
 import com.roger.researchcenterservice.repository.DepartmentRepository;
 import com.roger.researchcenterservice.repository.LaboratoryRepository;
 import com.roger.researchcenterservice.service.LaboratoryService;
-import com.roger.researchcenterservice.service.ServiceLayerExceptionCodes;
 import com.roger.researchcenterservice.validator.DtoFieldValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

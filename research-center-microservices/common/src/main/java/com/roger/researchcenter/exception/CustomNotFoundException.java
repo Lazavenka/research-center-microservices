@@ -1,4 +1,4 @@
-package com.roger.researchcenterservice.exception;
+package com.roger.researchcenter.exception;
 
 
 public class CustomNotFoundException extends RuntimeException {
