@@ -1,4 +1,4 @@
-package com.roger.scheduleservice.exception;
+package com.roger.microservices.exception;
 
 
 public class CustomNotFoundException extends RuntimeException {
@@ -14,4 +14,7 @@ public class CustomNotFoundException extends RuntimeException {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

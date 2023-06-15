@@ -1,10 +1,10 @@
 package com.roger.scheduleservice.service.impl;
 
+import com.roger.microservices.exception.CustomNotFoundException;
+import com.roger.microservices.exception.CustomWebServiceException;
+import com.roger.microservices.exception.ServiceLayerExceptionCodes;
 import com.roger.scheduleservice.dto.EquipmentDto;
-import com.roger.scheduleservice.exception.CustomNotFoundException;
-import com.roger.scheduleservice.exception.CustomWebServiceException;
 import com.roger.scheduleservice.model.Order;
-import com.roger.scheduleservice.service.ServiceLayerExceptionCodes;
 import com.roger.scheduleservice.service.WebRequestService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatusCode;

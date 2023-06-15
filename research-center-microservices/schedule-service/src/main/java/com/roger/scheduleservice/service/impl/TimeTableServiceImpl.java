@@ -1,10 +1,10 @@
 package com.roger.scheduleservice.service.impl;
 
+import com.roger.microservices.exception.IncorrectRequestException;
+import com.roger.microservices.exception.ServiceLayerExceptionCodes;
 import com.roger.scheduleservice.dto.EquipmentDto;
 
-import com.roger.scheduleservice.exception.IncorrectRequestException;
 import com.roger.scheduleservice.model.*;
-import com.roger.scheduleservice.service.ServiceLayerExceptionCodes;
 import com.roger.scheduleservice.service.TimeTableService;
 import com.roger.scheduleservice.validator.InputFieldValidator;
 import lombok.AllArgsConstructor;

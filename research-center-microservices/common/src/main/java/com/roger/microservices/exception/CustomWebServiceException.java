@@ -1,4 +1,4 @@
-package com.roger.scheduleservice.exception;
+package com.roger.microservices.exception;
 
 public class CustomWebServiceException extends RuntimeException{
 

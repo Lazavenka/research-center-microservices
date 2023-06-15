@@ -1,4 +1,4 @@
-package com.roger.scheduleservice.exception;
+package com.roger.microservices.exception;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -23,6 +23,7 @@ public class ApiErrorResponse {
      * Error messages with appropriate error code (key) must be presented in .properties file
      *
      * @param apiErrorResponseStatus enum which contains error code (key)
+     * @param messageSource instance of {@link MessageSource} class configured in {@link com.roger.orderservice.config.OrderServiceConfig}
      * @return ApiErrorResponse
      *
      */
@@ -40,6 +41,7 @@ public class ApiErrorResponse {
      * Method formats message and insert id value instead of %d in error message.
      *
      * @param apiErrorResponseStatus enum which contains error code (key)
+     * @param messageSource instance of {@link MessageSource} class configured in {@link com.roger.orderservice.config.OrderServiceConfig}
      * @param id long value of id to format error message
      * @return ApiErrorResponse
      *
@@ -67,11 +69,11 @@ public class ApiErrorResponse {
         this.errorMessage = errorMessage;
     }
 
-    public String getOriginalThrowable() {
+    public String getOriginalErrorMessage() {
         return originalThrowable;
     }
 
-    public void setOriginalThrowable(Throwable originalThrowable) {
-        this.originalThrowable = originalThrowable.getMessage();
+    public void setOriginalThrowable(Throwable originalError) {
+        this.originalThrowable = originalError.getMessage();
     }
 }

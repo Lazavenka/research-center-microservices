@@ -1,5 +1,6 @@
 package com.roger.scheduleservice.exception;
 
+import com.roger.microservices.exception.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;

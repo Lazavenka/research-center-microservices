@@ -3,4 +3,5 @@ include 'research-center-service'
 include 'schedule-service'
 include 'order-service'
 include 'discovery-server'
+include 'common'
 
