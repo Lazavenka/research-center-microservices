@@ -18,6 +18,7 @@ public class EquipmentDto {
     private String name;
     private String description;
     private String imageFilePath;
+    private String equipmentType;
     private Long laboratoryId;
     private BigDecimal pricePerHour;
     private LocalTime averageResearchTime;

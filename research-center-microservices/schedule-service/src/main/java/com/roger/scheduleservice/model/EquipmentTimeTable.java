@@ -1,6 +1,6 @@
 package com.roger.scheduleservice.model;
 
-import com.roger.scheduleservice.dto.EquipmentDto;
+import com.roger.microservices.dto.EquipmentDto;
 import lombok.*;
 
 import java.time.LocalTime;

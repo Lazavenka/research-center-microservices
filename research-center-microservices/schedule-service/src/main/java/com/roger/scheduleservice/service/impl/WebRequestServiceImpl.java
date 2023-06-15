@@ -1,10 +1,10 @@
 package com.roger.scheduleservice.service.impl;
 
+import com.roger.microservices.dto.EquipmentDto;
+import com.roger.microservices.dto.OrderGetDto;
 import com.roger.microservices.exception.CustomNotFoundException;
 import com.roger.microservices.exception.CustomWebServiceException;
 import com.roger.microservices.exception.ServiceLayerExceptionCodes;
-import com.roger.scheduleservice.dto.EquipmentDto;
-import com.roger.scheduleservice.model.Order;
 import com.roger.scheduleservice.service.WebRequestService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatusCode;
@@ -39,7 +39,7 @@ public class WebRequestServiceImpl implements WebRequestService {
                 .bodyToMono(EquipmentDto.class).block();
     }
     @Override
-    public List<Order> getOrderListByEquipmentIdInPeriod(Long equipmentId, LocalDateTime startPeriod, LocalDateTime endPeriod) {
+    public List<OrderGetDto> getOrderListByEquipmentIdInPeriod(Long equipmentId, LocalDateTime startPeriod, LocalDateTime endPeriod) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String startDateTime = startPeriod.format(formatter);
         String endDateTime = endPeriod.format(formatter);
@@ -58,7 +58,7 @@ public class WebRequestServiceImpl implements WebRequestService {
                         clientResponse -> {
                             throw new CustomWebServiceException(ServiceLayerExceptionCodes.INTERNAL_SERVICE_ERROR);
                         })
-                .bodyToFlux(Order.class)
+                .bodyToFlux(OrderGetDto.class)
                 .collectList()
                 .block();
     }

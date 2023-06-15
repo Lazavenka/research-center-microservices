@@ -3,6 +3,7 @@ package com.roger.scheduleservice;
 import com.roger.scheduleservice.data.EquipmentData;
 import com.roger.scheduleservice.data.OrdersData;
 import com.roger.scheduleservice.data.TestDateTimeData;
+import com.roger.scheduleservice.mapper.OrderStructMapper;
 import com.roger.scheduleservice.model.EquipmentTimeTable;
 import com.roger.scheduleservice.service.impl.TimeTableServiceImpl;
 import com.roger.scheduleservice.service.impl.WebRequestServiceImpl;
@@ -27,11 +28,13 @@ class ScheduleServiceApplicationTest {
     @Mock
     private WebRequestServiceImpl webRequestService = Mockito.mock(WebRequestServiceImpl.class);
 
+    private final OrderStructMapper orderStructMapper = OrderStructMapper.INSTANCE;
+
     private TimeTableServiceImpl timeTableService;
 
     @BeforeEach
     void setup() {
-        timeTableService = new TimeTableServiceImpl(webRequestService);
+        timeTableService = new TimeTableServiceImpl(webRequestService, orderStructMapper);
     }
 
     @Test
@@ -39,7 +42,7 @@ class ScheduleServiceApplicationTest {
         when(webRequestService.getEquipmentByIdFromResearchCenterService(1L))
                 .thenReturn(EquipmentData.EQUIPMENT_ONE_HOUR_RESEARCH_TIME);
         when(webRequestService.getOrderListByEquipmentIdInPeriod(1L, TestDateTimeData.WEDNESDAY, TestDateTimeData.THURSDAY))
-                .thenReturn(List.of(OrdersData.ORDER_TO_BE_SAVED, OrdersData.ORDER_EXACT_TIME));
+                .thenReturn(orderStructMapper.listOrderEntityToDto(List.of(OrdersData.ORDER_TO_BE_SAVED, OrdersData.ORDER_EXACT_TIME)));
 
         EquipmentTimeTable actual = timeTableService.provideEquipmentTimeTable(1L, TestDateTimeData.WEDNESDAY.toLocalDate());
 

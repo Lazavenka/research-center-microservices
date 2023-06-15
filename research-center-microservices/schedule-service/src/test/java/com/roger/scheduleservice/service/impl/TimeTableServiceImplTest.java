@@ -1,5 +1,7 @@
 package com.roger.scheduleservice.service.impl;
 
+import com.roger.microservices.dto.OrderGetDto;
+import com.roger.scheduleservice.mapper.OrderStructMapper;
 import com.roger.scheduleservice.model.Order;
 import com.roger.scheduleservice.data.OrdersData;
 import org.junit.jupiter.api.Test;
@@ -13,8 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TimeTableServiceImplTest {
 
+    private OrderStructMapper mapper = OrderStructMapper.INSTANCE;
+
     private final TimeTableServiceImpl timeTableService = new TimeTableServiceImpl(
-                        new WebRequestServiceImpl(WebClient.builder().build()));
+                        new WebRequestServiceImpl(WebClient.builder().build()), mapper);
 
     @Test
     void checkAvailabilityTest_notCrossed() {

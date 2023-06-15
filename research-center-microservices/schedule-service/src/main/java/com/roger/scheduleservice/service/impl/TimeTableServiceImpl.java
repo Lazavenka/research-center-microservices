@@ -1,9 +1,11 @@
 package com.roger.scheduleservice.service.impl;
 
+import com.roger.microservices.dto.EquipmentDto;
+import com.roger.microservices.dto.OrderGetDto;
 import com.roger.microservices.exception.IncorrectRequestException;
 import com.roger.microservices.exception.ServiceLayerExceptionCodes;
-import com.roger.scheduleservice.dto.EquipmentDto;
 
+import com.roger.scheduleservice.mapper.OrderStructMapper;
 import com.roger.scheduleservice.model.*;
 import com.roger.scheduleservice.service.TimeTableService;
 import com.roger.scheduleservice.validator.InputFieldValidator;
@@ -25,6 +27,7 @@ import java.util.*;
 public class TimeTableServiceImpl implements TimeTableService {
 
     private WebRequestServiceImpl requestService;
+    private OrderStructMapper mapper;
 
     @Override
     public EquipmentTimeTable provideEquipmentTimeTable(Long equipmentId, LocalDate selectedDay) {
@@ -41,13 +44,14 @@ public class TimeTableServiceImpl implements TimeTableService {
             return equipmentTimeTable;
         }
         buildTimeTable(equipmentTimeTable, selectedDay);
-        List<Order> ordersByEquipmentIdOnSelectedDay = requestService
+        List<OrderGetDto> ordersDtoByEquipmentIdOnSelectedDay = requestService
                 .getOrderListByEquipmentIdInPeriod(equipmentId, selectedDay.atStartOfDay(), selectedDay.plusDays(1).atStartOfDay());
 
-        if (ordersByEquipmentIdOnSelectedDay == null || ordersByEquipmentIdOnSelectedDay.isEmpty()){
+        if (ordersDtoByEquipmentIdOnSelectedDay == null || ordersDtoByEquipmentIdOnSelectedDay.isEmpty()){
             return equipmentTimeTable;
         } else {
-            setAvailability(equipmentTimeTable.getWorkTimePeriods(), ordersByEquipmentIdOnSelectedDay);
+            List<Order> ordersListOnSelectedDay = mapper.listOrderDtoToEntity(ordersDtoByEquipmentIdOnSelectedDay);
+            setAvailability(equipmentTimeTable.getWorkTimePeriods(), ordersListOnSelectedDay);
         }
 
         return equipmentTimeTable;
@@ -61,7 +65,8 @@ public class TimeTableServiceImpl implements TimeTableService {
             return Mono.just(Boolean.FALSE);
         }
         LocalDateTime orderStartTime = order.getRentStartTime();
-        List<Order> ordersInPeriod = requestService.getOrderListByEquipmentIdInPeriod(equipmentId, orderStartTime, orderEndTime);
+        List<OrderGetDto> ordersGetDtoInPeriod = requestService.getOrderListByEquipmentIdInPeriod(equipmentId, orderStartTime, orderEndTime);
+        List<Order> ordersInPeriod = mapper.listOrderDtoToEntity(ordersGetDtoInPeriod);
         return Mono.just(checkIsAvailable(order, ordersInPeriod));
     }
 
