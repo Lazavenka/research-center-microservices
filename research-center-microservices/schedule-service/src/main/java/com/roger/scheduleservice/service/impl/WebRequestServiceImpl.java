@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,9 +21,10 @@ import java.util.List;
 public class WebRequestServiceImpl implements WebRequestService {
     private WebClient webClient;
 
-    public Mono<EquipmentDto> getEquipmentByIdFromResearchCenterService(Long equipmentId){
+    @Override
+    public EquipmentDto getEquipmentByIdFromResearchCenterService(Long equipmentId) {
         String uri = "http://localhost:8080/api/v1/equipment/" + equipmentId.toString()
-                +"/info";
+                + "/info";
         return webClient.get()
                 .uri(uri)
                 .retrieve()
@@ -36,10 +36,10 @@ public class WebRequestServiceImpl implements WebRequestService {
                         clientResponse -> {
                             throw new CustomWebServiceException(ServiceLayerExceptionCodes.INTERNAL_SERVICE_ERROR + " " + clientResponse.statusCode());
                         })
-                .bodyToMono(EquipmentDto.class);
+                .bodyToMono(EquipmentDto.class).block();
     }
-
-    public Mono<List<Order>> getOrderListByEquipmentIdInPeriod(Long equipmentId, LocalDateTime startPeriod, LocalDateTime endPeriod) {
+    @Override
+    public List<Order> getOrderListByEquipmentIdInPeriod(Long equipmentId, LocalDateTime startPeriod, LocalDateTime endPeriod) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String startDateTime = startPeriod.format(formatter);
         String endDateTime = endPeriod.format(formatter);
@@ -59,7 +59,8 @@ public class WebRequestServiceImpl implements WebRequestService {
                             throw new CustomWebServiceException(ServiceLayerExceptionCodes.INTERNAL_SERVICE_ERROR);
                         })
                 .bodyToFlux(Order.class)
-                .collectList();
+                .collectList()
+                .block();
     }
 
 }

@@ -36,9 +36,9 @@ public class OrderServiceImpl implements OrderService {
         validator.validate(saveOrderDto);
         Order order = mapper.saveDtoToEntity(saveOrderDto);
         Long equipmentId = order.getEquipmentId();
-        Boolean isAvailable = webRequestService.requestCheckAvailability(order).block();
+        Boolean isAvailable = webRequestService.requestCheckAvailability(order);
         if (Boolean.TRUE.equals(isAvailable)){
-            EquipmentDto requestedEquipmentInfo = webRequestService.requestEquipmentInfo(equipmentId).block();
+            EquipmentDto requestedEquipmentInfo = webRequestService.requestEquipmentInfo(equipmentId);
             BigDecimal pricePerHour = requestedEquipmentInfo.getPricePerHour();
             BigDecimal totalCost = OrderTotalCostCalculator.calculateTotalCost(pricePerHour, order);
             order.setState(OrderState.BOOKED);
@@ -61,8 +61,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderGetDto> getOrdersByEquipmentIdAtPeriod(Long equipmentId, LocalDateTime
-            startTime, LocalDateTime endTime) {
+    public List<OrderGetDto> getOrdersByEquipmentIdAtPeriod(Long equipmentId,
+                                                            LocalDateTime startTime, LocalDateTime endTime) {
         if (startTime.isAfter(endTime)) {
             return Collections.emptyList();
         }

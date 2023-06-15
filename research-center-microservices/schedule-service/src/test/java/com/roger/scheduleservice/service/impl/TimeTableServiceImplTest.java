@@ -1,8 +1,7 @@
 package com.roger.scheduleservice.service.impl;
 
 import com.roger.scheduleservice.model.Order;
-import com.roger.scheduleservice.validator.InputFieldValidator;
-import com.roger.scheduleservice.data.Orders;
+import com.roger.scheduleservice.data.OrdersData;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -15,18 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TimeTableServiceImplTest {
 
     private final TimeTableServiceImpl timeTableService = new TimeTableServiceImpl(
-                        new WebRequestServiceImpl(WebClient.builder().build()), new InputFieldValidator());
+                        new WebRequestServiceImpl(WebClient.builder().build()));
 
     @Test
     void checkAvailabilityTest_notCrossed() {
         List<Order> ordersInPeriod = new ArrayList<>();
 
-        ordersInPeriod.add(Orders.ORDER_NOT_CROSSED_ONE);
-        ordersInPeriod.add(Orders.ORDER_NOT_CROSSED_TWO);
+        ordersInPeriod.add(OrdersData.ORDER_NOT_CROSSED_ONE);
+        ordersInPeriod.add(OrdersData.ORDER_NOT_CROSSED_TWO);
 
-        assertTrue(timeTableService.checkIsAvailable(Orders.ORDER_TO_BE_SAVED, ordersInPeriod));
-
-
+        assertTrue(timeTableService.checkIsAvailable(OrdersData.ORDER_TO_BE_SAVED, ordersInPeriod));
 
     }
 
@@ -35,10 +32,10 @@ class TimeTableServiceImplTest {
 
         List<Order> ordersInPeriod = new ArrayList<>();
 
-        ordersInPeriod.add(Orders.ORDER_NOT_CROSSED_ONE);
-        ordersInPeriod.add(Orders.ORDER_EXACT_TIME);
+        ordersInPeriod.add(OrdersData.ORDER_NOT_CROSSED_ONE);
+        ordersInPeriod.add(OrdersData.ORDER_EXACT_TIME);
 
-        assertFalse(timeTableService.checkIsAvailable(Orders.ORDER_TO_BE_SAVED, ordersInPeriod));
+        assertFalse(timeTableService.checkIsAvailable(OrdersData.ORDER_TO_BE_SAVED, ordersInPeriod));
 
     }
 
@@ -47,10 +44,10 @@ class TimeTableServiceImplTest {
 
         List<Order> ordersInPeriod = new ArrayList<>();
 
-        ordersInPeriod.add(Orders.ORDER_NOT_CROSSED_ONE);
-        ordersInPeriod.add(Orders.ORDER_CROSSED_TIME_ONE);
+        ordersInPeriod.add(OrdersData.ORDER_NOT_CROSSED_ONE);
+        ordersInPeriod.add(OrdersData.ORDER_CROSSED_TIME_ONE);
 
-        assertFalse(timeTableService.checkIsAvailable(Orders.ORDER_TO_BE_SAVED, ordersInPeriod));
+        assertFalse(timeTableService.checkIsAvailable(OrdersData.ORDER_TO_BE_SAVED, ordersInPeriod));
 
     }
 
@@ -59,10 +56,10 @@ class TimeTableServiceImplTest {
 
         List<Order> ordersInPeriod = new ArrayList<>();
 
-        ordersInPeriod.add(Orders.ORDER_NOT_CROSSED_ONE);
-        ordersInPeriod.add(Orders.ORDER_CROSSED_TIME_TWO);
+        ordersInPeriod.add(OrdersData.ORDER_NOT_CROSSED_ONE);
+        ordersInPeriod.add(OrdersData.ORDER_CROSSED_TIME_TWO);
 
-        assertFalse(timeTableService.checkIsAvailable(Orders.ORDER_TO_BE_SAVED, ordersInPeriod));
+        assertFalse(timeTableService.checkIsAvailable(OrdersData.ORDER_TO_BE_SAVED, ordersInPeriod));
 
     }
 }

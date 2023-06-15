@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping(value = "/api/v1/")
@@ -19,12 +19,13 @@ public class ScheduleController {
 
     @GetMapping(value = "/equipment/{equipmentId}/schedule")
     public EquipmentTimeTable provideTimeTable(@PathVariable Long equipmentId,
-                                               @RequestParam("dateTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime startTime){
+                                               @RequestParam("dateTime") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startTime) {
         return timeTableService.provideEquipmentTimeTable(equipmentId, startTime);
     }
+
     @PostMapping(value = "/equipment/{equipmentId}/schedule")
     public Mono<Boolean> isAvailableForOrder(@PathVariable Long equipmentId,
-                                             @RequestBody Order order){
+                                             @RequestBody Order order) {
 
         return timeTableService.isAvailableForOrder(equipmentId, order);
     }

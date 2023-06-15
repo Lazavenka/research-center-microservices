@@ -19,5 +19,6 @@ public class EquipmentTimeTable {
 
     public static final LocalTime START_WORKING_TIME = LocalTime.of(8, 0, 0);
     public static final LocalTime END_WORKING_TIME = LocalTime.of(20, 0, 0);
-    public static final int SEVEN_DAYS = 7;
+    public static final LocalTime DEFAULT_SERVICE_TIME = LocalTime.of(0, 10, 0);
+
 }

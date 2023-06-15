@@ -54,4 +54,4 @@ insert into equipment (name, description, image_file_path, equipment_type_id, la
 values ('Deformation measurement stand','Set of equipment for elastic deformation measurement', null, 2, 4, 'ACTIVE', 25.00, '00:45:00');
 insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id,  state,
                        price_per_hour, average_research_time)
-values ('Spectrophotometer SFM 3000', 'Visible and near IR range spectrephotometer', null, 1, 6,  'ACTIVE', 30.00, '00:30:00');
+values ('Spectrophotometer SFM 3000', 'Visible and near IR range spectrephotometer', null, 1, 6,  'ACTIVE', 30.00, '4:00:00');

@@ -4,11 +4,11 @@ import com.roger.scheduleservice.model.EquipmentTimeTable;
 import com.roger.scheduleservice.model.Order;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface TimeTableService {
 
-    EquipmentTimeTable provideEquipmentTimeTable(Long equipmentId, LocalDateTime dateTime);
+    EquipmentTimeTable provideEquipmentTimeTable(Long equipmentId, LocalDate selectedDay);
 
     Mono<Boolean> isAvailableForOrder(Long equipmentId, Order order);
 }

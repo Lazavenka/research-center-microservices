@@ -6,7 +6,7 @@ import com.roger.scheduleservice.model.OrderState;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Orders {
+public class OrdersData {
     public static final Order ORDER_TO_BE_SAVED = new Order(1, 2, OrderState.BOOKED, new BigDecimal("20.20"),
             5, LocalDateTime.of(2023, 5, 31, 16, 20, 0),
             LocalDateTime.of(2023, 5, 31, 16, 40, 0), 1);
