@@ -19,13 +19,13 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class WebRequestServiceImpl implements WebRequestService {
-    private WebClient webClient;
+    private WebClient.Builder webClient;
 
     @Override
     public EquipmentDto getEquipmentByIdFromResearchCenterService(Long equipmentId) {
-        String uri = "http://localhost:8080/api/v1/equipment/" + equipmentId.toString()
+        String uri = "http://research-center-service/api/v1/equipment/" + equipmentId.toString()
                 + "/info";
-        return webClient.get()
+        return webClient.build().get()
                 .uri(uri)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
@@ -44,10 +44,10 @@ public class WebRequestServiceImpl implements WebRequestService {
         String startDateTime = startPeriod.format(formatter);
         String endDateTime = endPeriod.format(formatter);
 
-        String uri = "http://localhost:8081/api/v1/equipment/" + equipmentId.toString() +
+        String uri = "http://order-service/api/v1/equipment/" + equipmentId.toString() +
                 "/orders?startTime=" + startDateTime +
                 "&endTime=" + endDateTime;
-        return webClient.get()
+        return webClient.build().get()
                 .uri(uri)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,

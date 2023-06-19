@@ -1,5 +1,6 @@
 package com.roger.scheduleservice.config;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,9 @@ import java.util.Locale;
 @Configuration
 public class WebClientConfig {
     @Bean
-    public WebClient webClient(){
-        return WebClient.builder().build();
+    @LoadBalanced
+    public WebClient.Builder webClient(){
+        return WebClient.builder();
     }
 
     @Bean

@@ -15,12 +15,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @AllArgsConstructor
 public class WebRequestServiceImpl implements WebRequestService {
-    private WebClient webClient;
+    private WebClient.Builder webClient;
 
     public boolean requestCheckAvailability(Order order) {
-        String uri = "http://localhost:8082/api/v1/equipment/"
+        String uri = "http://schedule-service/api/v1/equipment/"
                 + order.getEquipmentId() + "/schedule";
-        return Boolean.TRUE.equals(webClient.post()
+        return Boolean.TRUE.equals(webClient.build().post()
                 .uri(uri)
                 .body(BodyInserters.fromValue(order))
                 .retrieve()
@@ -38,9 +38,9 @@ public class WebRequestServiceImpl implements WebRequestService {
 
     @Override
     public EquipmentDto requestEquipmentInfo(Long equipmentId) {
-        String uri = "http://localhost:8080/api/v1/equipment/" + equipmentId.toString()
+        String uri = "http://research-center-service/api/v1/equipment/" + equipmentId.toString()
                 + "/info";
-        return webClient.get()
+        return webClient.build().get()
                 .uri(uri)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
