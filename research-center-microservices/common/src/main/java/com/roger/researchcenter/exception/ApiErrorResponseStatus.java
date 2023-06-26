@@ -21,6 +21,7 @@ public enum ApiErrorResponseStatus {
     UNAVAILABLE_FOR_ORDER("40013", HttpStatus.BAD_REQUEST),
     INCORRECT_REQUEST_DATA("40099", HttpStatus.BAD_REQUEST),
 
+    BAD_CREDENTIALS("40101",HttpStatus.UNAUTHORIZED),
     NOT_FOUND("40400", HttpStatus.NOT_FOUND),
     NOT_FOUND_ID("40401", HttpStatus.NOT_FOUND),
     NOT_FOUND_EQUIPMENT_ID("40402", HttpStatus.NOT_FOUND),
@@ -30,6 +31,7 @@ public enum ApiErrorResponseStatus {
     NOT_UPDATED_ID("40406", HttpStatus.NOT_FOUND),
     NOT_FOUND_EQUIPMENT("40408", HttpStatus.NOT_FOUND),
     NOT_FOUND_ORDERS("40411", HttpStatus.BAD_REQUEST),
+    USERNAME_NOT_FOUND("40412", HttpStatus.NOT_FOUND ),
 
     NOT_FOUND_EXCEPTION("40499", HttpStatus.NOT_FOUND),
 
