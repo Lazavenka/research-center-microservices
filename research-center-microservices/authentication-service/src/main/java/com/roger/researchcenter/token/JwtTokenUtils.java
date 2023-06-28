@@ -46,12 +46,31 @@ public class JwtTokenUtils {
     public String getUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+
+
     public List<String> getRoles(String token) {
         return extractClaim(token, claims -> claims.get("roles", List.class));
     }
+
+    public boolean isTokenValid(String token, UserCredentials credentials) {
+        return credentials.getUsername().equals(getUserName(token)) && !isTokenExpired(token);
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims) ;
+        return claimsResolver.apply(claims);
+    }
+
+    public void verify(String token) {
+        getAllClaimsFromToken(token);
     }
 
     private Claims getAllClaimsFromToken(String token) {

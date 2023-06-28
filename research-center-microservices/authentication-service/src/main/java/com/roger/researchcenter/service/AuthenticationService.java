@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface AuthenticationService {
     AuthenticationResponse authenticate(AuthenticationRequest request);
+
     AuthenticationResponse register(RegisterRequest request);
 
     List<User> getUsers();

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.RouterFunctions;
 import org.springframework.web.servlet.function.ServerResponse;
@@ -21,19 +21,16 @@ public class AuthenticationServiceApplication {
 
     //Only for testing and studying purposes
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(){
+    public RouterFunction<ServerResponse> routerFunction() {
 
         return RouterFunctions.route()
                 .GET("/api/v1/test/admin", request -> {
-                    UserDetails userDetails = request.principal()
-                            .map(Authentication.class::cast)
-                            .map(Authentication::getPrincipal)
-                            .map(UserDetails.class::cast)
-                            .orElseThrow();
+                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     return ServerResponse.ok()
                             .contentType(MediaType.APPLICATION_JSON)
-                            .body(Map.of("greetings","Secured manager endpoint entered. Welcome %s".formatted(userDetails.getUsername())));
+                            .body(Map.of("greetings", "Secured admin endpoint entered. Welcome %s with role %s".formatted(authentication.getName(), authentication.getAuthorities())));
                 })
                 .build();
     }
+
 }

@@ -2,6 +2,8 @@ package com.roger.researchcenter.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class User{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @Fetch(value = FetchMode.JOIN)
     private List<Role> roles;
     @Column(name = "active")
     private boolean active;

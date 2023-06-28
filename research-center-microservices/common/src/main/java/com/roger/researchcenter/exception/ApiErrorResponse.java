@@ -1,19 +1,26 @@
 package com.roger.researchcenter.exception;
 
+import lombok.ToString;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  * ApiErrorResponse class contains localized messages and error codes of thrown exception, which can be sent to view.
  */
+@ToString
 public class ApiErrorResponse {
     private String errorMessage;
     private String errorCode;
     private String originalThrowable;
-
+    private final LocalDateTime timestamp;
     public ApiErrorResponse(String errorMessage, String errorCode) {
         this.errorMessage = errorMessage;
         this.errorCode = errorCode;
+        timestamp = LocalDateTime.now();
     }
 
     /**
@@ -73,5 +80,9 @@ public class ApiErrorResponse {
 
     public void setOriginalThrowable(Throwable originalError) {
         this.originalThrowable = originalError.getMessage();
+    }
+
+    public String getTimestamp() {
+        return timestamp.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 }

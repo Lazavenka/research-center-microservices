@@ -8,29 +8,32 @@ import com.roger.researchcenter.repository.UserRepository;
 import com.roger.researchcenter.service.AuthenticationService;
 import com.roger.researchcenter.service.UserCredentials;
 import com.roger.researchcenter.token.JwtTokenUtils;
-import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-public class AuthenticationServiceImpl implements AuthenticationService, UserDetailsService {
+@RequiredArgsConstructor
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository repository;
+    private final AuthenticationProvider authenticationProvider;
     private final JwtTokenUtils jwtTokenUtils;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        UserCredentials credentials = new UserCredentials(
-                repository.findUserByEmail(request.getEmail()).orElseThrow(
-                        () -> new UsernameNotFoundException("User with name %s not found".formatted(request.getEmail()))));
+        authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(
+                request.getEmail(), request.getPassword()));
+        UserCredentials credentials = new UserCredentials(repository.findUserByEmail(request.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User with name %s not found".formatted(request.getEmail()))));
         String token = jwtTokenUtils.generateJwtToken(credentials);
         return new AuthenticationResponse(token);
     }
+
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
         return null;
@@ -41,10 +44,5 @@ public class AuthenticationServiceImpl implements AuthenticationService, UserDet
         return repository.findAll();
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new UserCredentials(repository.findUserByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User with name " + username + "not found!")));
-    }
 
 }

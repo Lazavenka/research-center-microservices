@@ -7,21 +7,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserCredentials implements UserDetails {
-
+    private final Long id;
     private final String email;
     private final String password;
     private final boolean isActive;
     private final List<GrantedAuthority> authorities;
 
     public UserCredentials(User user){
+        this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.isActive = user.isActive();
         this.authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                .map(GrantedAuthority.class::cast)
+                .toList();
     }
 
     @Override
@@ -57,5 +59,9 @@ public class UserCredentials implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isActive;
+    }
+
+    public long getId(){
+        return id;
     }
 }
