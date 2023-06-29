@@ -11,14 +11,14 @@ public class UserCredentials implements UserDetails {
     private final Long id;
     private final String email;
     private final String password;
-    private final boolean isActive;
+    private final UserState userState;
     private final List<GrantedAuthority> authorities;
 
     public UserCredentials(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        this.isActive = user.isActive();
+        this.userState = user.getState();
         this.authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
                 .map(GrantedAuthority.class::cast)
@@ -47,7 +47,7 @@ public class UserCredentials implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return userState.equals(UserState.ACTIVE);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class UserCredentials implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isActive;
+        return userState.equals(UserState.ACTIVE);
     }
 
     public long getId() {

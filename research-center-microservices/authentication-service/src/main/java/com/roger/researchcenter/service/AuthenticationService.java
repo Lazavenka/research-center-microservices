@@ -13,4 +13,6 @@ public interface AuthenticationService {
     AuthenticationResponse register(RegisterRequest request);
 
     List<User> getUsers();
+
+    AuthenticationResponse confirmRegistration(String token);
 }

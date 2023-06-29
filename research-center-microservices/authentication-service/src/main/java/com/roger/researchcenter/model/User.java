@@ -10,12 +10,13 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "t_users")
 public class User{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private long id;
     @Column(name = "first_name")
@@ -34,7 +35,8 @@ public class User{
     )
     @Fetch(value = FetchMode.JOIN)
     private List<Role> roles;
-    @Column(name = "active")
-    private boolean active;
+    @Column(name = "state")
+    @Enumerated(EnumType.STRING)
+    private UserState state;
 
 }

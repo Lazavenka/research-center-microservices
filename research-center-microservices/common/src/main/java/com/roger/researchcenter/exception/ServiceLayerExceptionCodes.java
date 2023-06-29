@@ -1,6 +1,9 @@
 package com.roger.researchcenter.exception;
 
 public class ServiceLayerExceptionCodes {
+
+
+
     private ServiceLayerExceptionCodes(){}
 
     public static final String INCORRECT_REQUEST = "40000";
@@ -17,6 +20,10 @@ public class ServiceLayerExceptionCodes {
     public static final String EQUIPMENT_EXISTS = "40011";
     public static final String LABORATORY_EXISTS = "40012";
     public static final String NOT_AVAILABLE = "40013";
+    public static final String USERNAME_EXISTS = "40018";
+    public static final String PASSWORD_MISMATCH = "40019";
+    public static final String INVALID_REGISTRATION_TOKEN = "40020";
+    public static final String INCORRECT_EMAIL = "40021";
 
     public static final String NOT_FOUND_ID = "40401";
     public static final String NOT_FOUND_EQUIPMENT_ID = "40402";
@@ -27,7 +34,10 @@ public class ServiceLayerExceptionCodes {
     public static final String NOT_FOUND_EQUIPMENT = "40408";
     public static final String NOT_FOUND_ORDERS = "40411";
 
+    public static final String MAIL_CREATION_ERROR = "50097";
+    public static final String MAIL_SENDING_ERROR = "50098";
     public static final String INTERNAL_SERVICE_ERROR = "50099";
+
 
 
 }

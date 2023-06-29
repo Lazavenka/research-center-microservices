@@ -8,7 +8,9 @@ create table t_users(
     last_name varchar(40) not null,
     user_email varchar(255) unique not null,
     user_password varchar(60) not null,
-    active boolean default true
+    active boolean default true,
+    state ENUM('ACTIVE', 'BLOCKED', 'REGISTRATION')
+
 );
 create table roles(
     role_id int primary key auto_increment,
@@ -20,4 +22,12 @@ create table users_roles(
     role_id int not null,
     foreign key (user_id) references t_users(user_id),
     foreign key (role_id) references roles(role_id)
+);
+
+create table register_token(
+    id int primary key auto_increment,
+    register_time datetime,
+    token varchar(32),
+    user_id int,
+    foreign key (user_id) references t_users(user_id)
 )

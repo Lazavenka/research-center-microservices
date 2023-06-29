@@ -80,4 +80,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
+
+    @ExceptionHandler(IncorrectRequestException.class)
+    public ResponseEntity<ApiErrorResponse> handleIncorrectRequestException(IncorrectRequestException ex){
+        ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.getResponseStatusFromException(ex);
+        ApiErrorResponse apiErrorResponse = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
+        apiErrorResponse.setOriginalThrowable(ex);
+        return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
+                .body(apiErrorResponse);
+    }
+
+    @ExceptionHandler(CustomWebServiceException.class)
+    public final ResponseEntity<Object> handleBadRequestException(CustomWebServiceException ex) {
+        ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.getResponseStatusFromException(ex);
+        ApiErrorResponse apiErrorResponse = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
+        apiErrorResponse.setOriginalThrowable(ex);
+        return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
+                .body(apiErrorResponse);
+    }
 }

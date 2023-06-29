@@ -5,11 +5,9 @@ import com.roger.researchcenter.dto.AuthenticationResponse;
 import com.roger.researchcenter.dto.RegisterRequest;
 import com.roger.researchcenter.service.AuthenticationService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/v1/auth")
@@ -21,15 +19,17 @@ public class AuthenticationController {
     @PostMapping(value = "/sign-in")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request) {
-
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
     @PostMapping(value = "/sign-up")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(request));
     }
 
-
+    @GetMapping(value = "/confirm")
+    public ResponseEntity<AuthenticationResponse> confirmRegistration(@RequestParam String token){
+        return ResponseEntity.ok(authenticationService.confirmRegistration(token));
+    }
 }
