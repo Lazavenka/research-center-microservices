@@ -27,7 +27,7 @@ public class SecuredControllerTest {
     public String testAdmin(Authentication authentication) {
         return "Secured manager endpoint entered. Welcome %s with role %s".formatted(authentication.getName(), authentication.getAuthorities());
     }
-
+    //unsecured
     @GetMapping(value = "/get_users")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok(service.getUsers());

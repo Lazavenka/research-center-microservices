@@ -1,6 +1,5 @@
-package com.roger.researchcenter.service;
+package com.roger.researchcenter.model;
 
-import com.roger.researchcenter.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +14,7 @@ public class UserCredentials implements UserDetails {
     private final boolean isActive;
     private final List<GrantedAuthority> authorities;
 
-    public UserCredentials(User user){
+    public UserCredentials(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
@@ -61,7 +60,7 @@ public class UserCredentials implements UserDetails {
         return isActive;
     }
 
-    public long getId(){
+    public long getId() {
         return id;
     }
 }

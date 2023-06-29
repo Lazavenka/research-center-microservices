@@ -1,10 +1,9 @@
 package com.roger.researchcenter.token;
 
-import com.roger.researchcenter.service.UserCredentials;
-import io.jsonwebtoken.Claims;
+import com.roger.researchcenter.jwt.JwtPayloadExtractor;
+import com.roger.researchcenter.model.UserCredentials;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -13,23 +12,29 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 @Component
 public class JwtTokenUtils {
-    @Value("${jwt.secret}")
-    private String jwtSecret;
 
-    @Value("${jwt.lifetime}")
-    private Duration jwtLifeTime;
+    private final String jwtSecret;
 
+    private final Duration jwtLifeTime;
+
+    private final JwtPayloadExtractor jwtPayloadExtractor;
+
+    public JwtTokenUtils(){
+        jwtPayloadExtractor = new JwtPayloadExtractor();
+        this.jwtSecret = jwtPayloadExtractor.getJwtSecret();
+        this.jwtLifeTime = jwtPayloadExtractor.getJwtLifeTime();
+    }
     public String generateJwtToken(UserCredentials credentials) {
         Map<String, Object> claims = new HashMap<>();
         List<String> rolesList = credentials.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .toList();
-        claims.put("roles", rolesList);
+        claims.put(JwtPayloadExtractor.ROLES_CLAIM, rolesList);
+        claims.put(JwtPayloadExtractor.USER_ID_CLAIM, credentials.getId());
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + jwtLifeTime.toMillis());
 
@@ -44,40 +49,18 @@ public class JwtTokenUtils {
     }
 
     public String getUserName(String token) {
-        return extractClaim(token, Claims::getSubject);
+        return jwtPayloadExtractor.getUserName(token);
     }
-
 
     public List<String> getRoles(String token) {
-        return extractClaim(token, claims -> claims.get("roles", List.class));
+        return jwtPayloadExtractor.getRoles(token);
     }
 
-    public boolean isTokenValid(String token, UserCredentials credentials) {
-        return credentials.getUsername().equals(getUserName(token)) && !isTokenExpired(token);
-    }
-
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
-    }
-
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
+    public Long getId(String token) {
+        return jwtPayloadExtractor.getId(token);
     }
 
     public void verify(String token) {
-        getAllClaimsFromToken(token);
+        jwtPayloadExtractor.verify(token);
     }
-
-    private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtSecret).parseClaimsJws(token)
-                .getBody();
-    }
-
-
 }

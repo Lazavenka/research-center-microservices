@@ -1,6 +1,8 @@
 package com.roger.researchcenter.config;
 
+import com.roger.researchcenter.model.Roles;
 import com.roger.researchcenter.token.JwtAuthenticationFilter;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -10,21 +12,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class RestAuthenticationConfigurer extends CustomConfigurer {
 
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     private AccessDeniedHandler accessDeniedHandler;
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-    public void setAuthenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
-
-    public RestAuthenticationConfigurer(JwtAuthenticationFilter filter, AccessDeniedHandler accessDeniedHandler, AuthenticationEntryPoint authenticationEntryPoint) {
-        this.jwtAuthenticationFilter = filter;
-        this.accessDeniedHandler = accessDeniedHandler;
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
 
     @Override
     public void init(HttpSecurity builder) throws Exception {
@@ -36,10 +30,10 @@ public class RestAuthenticationConfigurer extends CustomConfigurer {
                                 .requestMatchers(HttpMethod.GET, "/error").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/test/get_users").permitAll()
                                 //.requestMatchers(HttpMethod.POST, "/api/v1/equipment").hasRole(UserRole.MANAGER.getRoleString())
-                                .requestMatchers(HttpMethod.GET, "/api/v1/test/manager").hasAnyRole("MANAGER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/test/manager").hasAnyRole(Roles.MANAGER.getValue(), Roles.ADMIN.getValue())
                                 //.requestMatchers(HttpMethod.POST, "/api/v1/departments").hasRole(UserRole.ADMIN.getRoleString())
-                                .requestMatchers(HttpMethod.GET, "/api/v1/test/admin").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/api/v1/test/user").hasAnyRole("USER", "MANAGER", "ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/test/admin").hasRole(Roles.ADMIN.getValue())
+                                .requestMatchers(HttpMethod.GET, "/api/v1/test/user").hasAnyRole(Roles.USER.getValue(), Roles.MANAGER.getValue(), Roles.ADMIN.getValue())
                                 .anyRequest().authenticated())
                 .exceptionHandling(configurer -> configurer.accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(authenticationEntryPoint));
@@ -47,7 +41,7 @@ public class RestAuthenticationConfigurer extends CustomConfigurer {
     }
 
     @Override
-    public void configure(HttpSecurity builder) throws Exception {
+    public void configure(HttpSecurity builder){
         builder.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -61,4 +55,8 @@ public class RestAuthenticationConfigurer extends CustomConfigurer {
         return this;
     }
 
+    public RestAuthenticationConfigurer authenticationEntryPoint(AuthenticationEntryPoint authenticationEntryPoint) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        return this;
+    }
 }

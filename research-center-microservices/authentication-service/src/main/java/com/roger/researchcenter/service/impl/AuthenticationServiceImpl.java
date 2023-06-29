@@ -6,7 +6,7 @@ import com.roger.researchcenter.dto.RegisterRequest;
 import com.roger.researchcenter.model.User;
 import com.roger.researchcenter.repository.UserRepository;
 import com.roger.researchcenter.service.AuthenticationService;
-import com.roger.researchcenter.service.UserCredentials;
+import com.roger.researchcenter.model.UserCredentials;
 import com.roger.researchcenter.token.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;

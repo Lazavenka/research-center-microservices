@@ -10,5 +10,6 @@ insert into roles(role_id, role_name) values ( 2, 'ROLE_MANAGER' );
 insert into roles(role_id, role_name) values ( 3, 'ROLE_ADMIN' );
 
 insert into users_roles(user_id, role_id) values ( 1,3 );
+insert into users_roles(user_id, role_id) values ( 1,2 );
 insert into users_roles(user_id, role_id) values ( 2,2 );
 insert into users_roles(user_id, role_id) values ( 3,1 );
