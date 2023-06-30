@@ -30,6 +30,7 @@ public class RestAuthenticationConfigurer extends CustomConfigurer {
                                 .requestMatchers(HttpMethod.GET, "/api/v1/auth/confirm").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/error").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/test/get_users").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/test/get_tokens").permitAll()
                                 //.requestMatchers(HttpMethod.POST, "/api/v1/equipment").hasRole(UserRole.MANAGER.getRoleString())
                                 .requestMatchers(HttpMethod.GET, "/api/v1/test/manager").hasAnyRole(Roles.MANAGER.getValue(), Roles.ADMIN.getValue())
                                 //.requestMatchers(HttpMethod.POST, "/api/v1/departments").hasRole(UserRole.ADMIN.getRoleString())

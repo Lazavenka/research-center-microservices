@@ -6,10 +6,7 @@ import com.roger.researchcenter.dto.RegisterRequest;
 import com.roger.researchcenter.exception.CustomWebServiceException;
 import com.roger.researchcenter.exception.IncorrectRequestException;
 import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
-import com.roger.researchcenter.model.Roles;
-import com.roger.researchcenter.model.User;
-import com.roger.researchcenter.model.UserCredentials;
-import com.roger.researchcenter.model.UserState;
+import com.roger.researchcenter.model.*;
 import com.roger.researchcenter.repository.RoleRepository;
 import com.roger.researchcenter.repository.UserRepository;
 import com.roger.researchcenter.service.AuthenticationService;
@@ -23,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,8 +70,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
         User createdUser = userRepository.save(user);
         String userRegistrationToken = registerTokenService.createUserRegistrationToken(createdUser);
-        // emailService.sendConfirmation(createdUser, userRegistrationToken); todo настроить email клиент
-        return new AuthenticationResponse(jwtTokenUtils.generateJwtToken(new UserCredentials(createdUser)) + ":"+userRegistrationToken);
+        emailService.sendConfirmation(createdUser, userRegistrationToken);
+        return new AuthenticationResponse(userRegistrationToken);
     }
 
     @Override
@@ -80,11 +79,23 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return userRepository.findAll();
     }
 
-    public AuthenticationResponse confirmRegistration(String token){
-        User user = registerTokenService.findUserByRegistrationToken(token);
+    @Transactional
+    public AuthenticationResponse confirmRegistration(String tokenString){
+        UserRegisterToken userRegisterToken = registerTokenService.findUserByRegistrationToken(tokenString);
+        User user = userRegisterToken.getUser();
+        if (userRegisterToken.getRegisterDateTime().plus(1, ChronoUnit.DAYS).isBefore(LocalDateTime.now())){
+            userRepository.delete(user);
+            registerTokenService.deleteToken(userRegisterToken);
+            throw new IncorrectRequestException(ServiceLayerExceptionCodes.REGISTRATION_TOKEN_EXPIRED);
+        }
         user.setState(UserState.ACTIVE);
         User savedUser = userRepository.save(user);
+        userRegisterToken.setUser(null);
+        registerTokenService.deleteToken(userRegisterToken);
         return new AuthenticationResponse(jwtTokenUtils.generateJwtToken(new UserCredentials(savedUser)));
     }
 
+    public List<UserRegisterToken> getUserTokens(){
+        return registerTokenService.getUserTokens();
+    }
 }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +30,19 @@ public class RegisterTokenServiceImpl implements RegisterTokenService {
     }
 
     @Override
-    public User findUserByRegistrationToken(String token) {
-        return repository.findUserRegisterTokenByToken(token).map(UserRegisterToken::getUser).orElseThrow(
+    public UserRegisterToken findUserByRegistrationToken(String token) {
+        return repository.findUserRegisterTokenByToken(token).orElseThrow(
                 () -> new IncorrectRequestException(ServiceLayerExceptionCodes.INVALID_REGISTRATION_TOKEN));
     }
+
+    @Override
+    public void deleteToken(UserRegisterToken token) {
+        repository.delete(token);
+    }
+
+    @Override
+    public List<UserRegisterToken> getUserTokens() {
+        return repository.findAll();
+    }
+
 }

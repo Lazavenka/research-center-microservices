@@ -4,6 +4,7 @@ import com.roger.researchcenter.dto.AuthenticationRequest;
 import com.roger.researchcenter.dto.AuthenticationResponse;
 import com.roger.researchcenter.dto.RegisterRequest;
 import com.roger.researchcenter.model.User;
+import com.roger.researchcenter.model.UserRegisterToken;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface AuthenticationService {
     List<User> getUsers();
 
     AuthenticationResponse confirmRegistration(String token);
+
+    List<UserRegisterToken> getUserTokens();
 }

@@ -7,6 +7,7 @@ import com.roger.researchcenter.model.User;
 import com.roger.researchcenter.service.ConfirmationService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Properties;
@@ -16,6 +17,7 @@ import java.util.Properties;
 public class EmailConfirmationService implements ConfirmationService {
     private MessageSource messageSource;
     private MailPropertiesProvider propertiesProvider;
+    private JavaMailSender mailSender;
 
     @Override
     public void sendConfirmation(User user, String token) {
@@ -23,7 +25,7 @@ public class EmailConfirmationService implements ConfirmationService {
         String subject = MailMessageBuilder.buildSubject(messageSource);
         String body = MailMessageBuilder.buildMessage(token, messageSource);
         String recipient = user.getEmail();
-        MailThread mailOperator = new MailThread(recipient, subject, body, props);
+        MailThread mailOperator = new MailThread(recipient, subject, body, props, mailSender);
         mailOperator.start();
     }
 }

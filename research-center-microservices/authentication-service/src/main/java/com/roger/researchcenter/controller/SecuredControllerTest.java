@@ -1,6 +1,7 @@
 package com.roger.researchcenter.controller;
 
 import com.roger.researchcenter.model.User;
+import com.roger.researchcenter.model.UserRegisterToken;
 import com.roger.researchcenter.service.AuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,5 +32,10 @@ public class SecuredControllerTest {
     @GetMapping(value = "/get_users")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.ok(service.getUsers());
+    }
+
+    @GetMapping(value = "/get_tokens")
+    public ResponseEntity<List<UserRegisterToken>> getUserTokens() {
+        return ResponseEntity.ok(service.getUserTokens());
     }
 }
