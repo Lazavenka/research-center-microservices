@@ -1,3 +1,9 @@
+CREATE SEQUENCE department_seq START WITH 55 INCREMENT BY 50;
+CREATE SEQUENCE laboratory_seq START WITH 56 INCREMENT BY 50;
+CREATE SEQUENCE equipment_type_seq START WITH 54 INCREMENT BY 50;
+CREATE SEQUENCE equipment_seq START WITH 58 INCREMENT BY 50;
+
+
 insert into department (name, description, address)
 values ('Physics of condensed matter', 'Researching in sphere of condensed matter', 'Minsk, Brovki str, 19');
 insert into department (name, description, address)
@@ -48,4 +54,4 @@ insert into equipment (name, description, image_file_path, equipment_type_id, la
 values ('Deformation measurement stand','Set of equipment for elastic deformation measurement', null, 2, 4, 'ACTIVE', 25.00, '00:45:00');
 insert into equipment (name, description, image_file_path, equipment_type_id, laboratory_id,  state,
                        price_per_hour, average_research_time)
-values ('Spectrophotometer SFM 3000', 'Visible and near IR range spectrephotometer', null, 1, 6,  'ACTIVE', 30.00, '00:30:00');
+values ('Spectrophotometer SFM 3000', 'Visible and near IR range spectrephotometer', null, 1, 6,  'ACTIVE', 30.00, '4:00:00');

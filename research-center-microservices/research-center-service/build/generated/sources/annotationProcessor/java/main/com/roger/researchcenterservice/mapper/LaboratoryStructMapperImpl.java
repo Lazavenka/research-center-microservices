@@ -7,15 +7,24 @@ import com.roger.researchcenterservice.model.Laboratory;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-30T22:12:05+0200",
+    date = "2023-06-21T14:38:37+0200",
     comments = "version: 1.5.5.Final, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.1.1.jar, environment: Java 17.0.7 (Amazon.com Inc.)"
 )
+@Component
 public class LaboratoryStructMapperImpl implements LaboratoryStructMapper {
 
-    private final EquipmentStructMapper equipmentStructMapper = EquipmentStructMapper.INSTANCE;
+    private final EquipmentStructMapper equipmentStructMapper;
+
+    @Autowired
+    public LaboratoryStructMapperImpl(EquipmentStructMapper equipmentStructMapper) {
+
+        this.equipmentStructMapper = equipmentStructMapper;
+    }
 
     @Override
     public SlimLaboratoryDto toSlimLaboratoryDto(Laboratory laboratory) {
@@ -59,20 +68,6 @@ public class LaboratoryStructMapperImpl implements LaboratoryStructMapper {
         List<SlimLaboratoryDto> list = new ArrayList<SlimLaboratoryDto>( laboratories.size() );
         for ( Laboratory laboratory : laboratories ) {
             list.add( toSlimLaboratoryDto( laboratory ) );
-        }
-
-        return list;
-    }
-
-    @Override
-    public List<FullLaboratoryDto> toListFullLaboratoryDto(List<Laboratory> laboratories) {
-        if ( laboratories == null ) {
-            return null;
-        }
-
-        List<FullLaboratoryDto> list = new ArrayList<FullLaboratoryDto>( laboratories.size() );
-        for ( Laboratory laboratory : laboratories ) {
-            list.add( toFullLaboratoryDto( laboratory ) );
         }
 
         return list;

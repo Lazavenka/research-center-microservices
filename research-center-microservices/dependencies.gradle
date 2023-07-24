@@ -1,0 +1,12 @@
+ext.libs = [
+        'mapstructLib' : 'org.mapstruct:mapstruct:1.5.5.Final',
+        'mapstructProcessor' : 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+]
+
+ext.libsTest = [
+        'jupiterApi' : 'org.junit.jupiter:junit-jupiter-api:5.8.1',
+        'jupiterEngine' : 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+]
+ext.cloud = [
+        'springCloudVersion': "2022.0.3"
+]

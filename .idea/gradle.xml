@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -12,22 +13,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/research-center-microservices" />
+            <option value="$PROJECT_DIR$/research-center-microservices/api-gateway" />
+            <option value="$PROJECT_DIR$/research-center-microservices/authentication-service" />
+            <option value="$PROJECT_DIR$/research-center-microservices/common" />
+            <option value="$PROJECT_DIR$/research-center-microservices/discovery-server" />
             <option value="$PROJECT_DIR$/research-center-microservices/order-service" />
             <option value="$PROJECT_DIR$/research-center-microservices/research-center-service" />
             <option value="$PROJECT_DIR$/research-center-microservices/schedule-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="LOCAL" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/research-center-microservices/research-center-service" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files/Java/gradle-8.1.1" />
-        <option name="gradleJvm" value="corretto-17" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/research-center-microservices/research-center-service" />
           </set>
         </option>
       </GradleProjectSettings>

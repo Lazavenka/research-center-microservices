@@ -10,7 +10,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Table(name = "equipment")
