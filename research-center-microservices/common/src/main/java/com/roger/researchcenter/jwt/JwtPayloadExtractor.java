@@ -1,6 +1,7 @@
 package com.roger.researchcenter.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +27,9 @@ public class JwtPayloadExtractor {
 
     public static final String ROLES_CLAIM = "roles";
     public static final String USER_ID_CLAIM = "userId";
+    public static final String USERNAME_CLAIM = "username";
+    public static final String USER_FIRST_NAME_CLAIM = "firstName";
+    public static final String USER_LAST_NAME_CLAIM = "lastName";
 
 
     public JwtPayloadExtractor() {
@@ -73,12 +77,28 @@ public class JwtPayloadExtractor {
     public Long getId(String token) {
         return extractClaim(token, claims -> claims.get(USER_ID_CLAIM, Long.class));
     }
+    public String getFirstName(String token) {
+        return extractClaim(token, claims -> claims.get(USER_FIRST_NAME_CLAIM, String.class));
+    }
+    public String getLastName(String token) {
+        return extractClaim(token, claims -> claims.get(USER_LAST_NAME_CLAIM, String.class));
+    }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
     }
 
+    /*** Method for validation JWT. Throws runtime exceptions if jwt is invalid
+     *
+     * @param token String of JWT token format
+     * @throws io.jsonwebtoken.UnsupportedJwtException if the token argument does not represent an Claims JWS
+     * @throws io.jsonwebtoken.SignatureException if JWT signature not valid
+     * @throws io.jsonwebtoken.MalformedJwtException if the token string is not a valid JWS
+     * @throws io.jsonwebtoken.ExpiredJwtException if provided JWT token is expired
+     * @see JwtParser#parseClaimsJws(String) on exception
+     *
+     */
     public void verify(String token) {
         getAllClaimsFromToken(token);
     }

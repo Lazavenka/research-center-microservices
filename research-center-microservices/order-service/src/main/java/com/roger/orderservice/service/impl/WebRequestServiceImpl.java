@@ -7,6 +7,7 @@ import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.orderservice.model.Order;
 import com.roger.orderservice.service.WebRequestService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -18,9 +19,9 @@ public class WebRequestServiceImpl implements WebRequestService {
     private WebClient.Builder webClient;
 
     public boolean requestCheckAvailability(Order order) {
-        String uri = "http://schedule-service/api/v1/equipment/"
-                + order.getEquipmentId() + "/schedule";
+        String uri = "http://schedule-service/api/v1/schedule/equipment/" + order.getEquipmentId();
         return Boolean.TRUE.equals(webClient.build().post()
+                // todo inter-service communication .header(HttpHeaders.AUTHORIZATION, ???)
                 .uri(uri)
                 .body(BodyInserters.fromValue(order))
                 .retrieve()
@@ -41,6 +42,7 @@ public class WebRequestServiceImpl implements WebRequestService {
         String uri = "http://research-center-service/api/v1/equipment/" + equipmentId.toString()
                 + "/info";
         return webClient.build().get()
+                // todo inter-service communication .header(HttpHeaders.AUTHORIZATION, ???)
                 .uri(uri)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,

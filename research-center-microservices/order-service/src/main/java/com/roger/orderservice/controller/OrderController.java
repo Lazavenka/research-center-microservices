@@ -13,29 +13,29 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api/v1/orders")
 @AllArgsConstructor
 public class OrderController {
     private OrderService orderService;
 
-    @PostMapping(value = "/orders")
+    @PostMapping
     public OrderGetDto createOrder(@RequestBody SaveOrderDto saveOrderDto) {
         return orderService.createOrder(saveOrderDto);
     }
 
-    @GetMapping(value = "/orders/{id}")
+    @GetMapping(value = "/{id}")
     public OrderGetDto getOrderById(@PathVariable Long id) {
         return orderService.getById(id);
     }
 
-    @GetMapping(value = "/equipment/{equipmentId}/orders")
+    @GetMapping(value = "/equipment/{equipmentId}")
     public List<OrderGetDto> getOrdersByEquipmentIdAtPeriod(@PathVariable Long equipmentId,
                                                             @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startTime,
                                                             @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endTime) {
         return orderService.getOrdersByEquipmentIdAtPeriod(equipmentId, startTime, endTime);
     }
 
-    @GetMapping(value = "/orders")
+    @GetMapping
     public ResponseEntity<List<OrderGetDto>> getAll() {
         List<OrderGetDto> orders = orderService.getAll();
         if(orders.isEmpty()){

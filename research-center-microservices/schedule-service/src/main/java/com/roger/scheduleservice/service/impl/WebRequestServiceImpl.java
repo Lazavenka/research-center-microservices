@@ -26,6 +26,8 @@ public class WebRequestServiceImpl implements WebRequestService {
         String uri = "http://research-center-service/api/v1/equipment/" + equipmentId.toString()
                 + "/info";
         return webClient.build().get()
+                // todo inter-service communication .header(HttpHeaders.AUTHORIZATION, ???)
+
                 .uri(uri)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
@@ -44,10 +46,11 @@ public class WebRequestServiceImpl implements WebRequestService {
         String startDateTime = startPeriod.format(formatter);
         String endDateTime = endPeriod.format(formatter);
 
-        String uri = "http://order-service/api/v1/equipment/" + equipmentId.toString() +
-                "/orders?startTime=" + startDateTime +
+        String uri = "http://order-service/api/v1/orders/equipment/" + equipmentId.toString() +
+                "?startTime=" + startDateTime +
                 "&endTime=" + endDateTime;
         return webClient.build().get()
+                // todo inter-service communication .header(HttpHeaders.AUTHORIZATION, ???)
                 .uri(uri)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,

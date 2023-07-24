@@ -11,19 +11,19 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping(value = "/api/v1/")
+@RequestMapping(value = "/api/v1/schedule")
 @AllArgsConstructor
 public class ScheduleController {
 
     private TimeTableService timeTableService;
 
-    @GetMapping(value = "/equipment/{equipmentId}/schedule")
+    @GetMapping(value = "/equipment/{equipmentId}")
     public EquipmentTimeTable provideTimeTable(@PathVariable Long equipmentId,
                                                @RequestParam("dateTime") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startTime) {
         return timeTableService.provideEquipmentTimeTable(equipmentId, startTime);
     }
 
-    @PostMapping(value = "/equipment/{equipmentId}/schedule")
+    @PostMapping(value = "/equipment/{equipmentId}")
     public Mono<Boolean> isAvailableForOrder(@PathVariable Long equipmentId,
                                              @RequestBody Order order) {
 

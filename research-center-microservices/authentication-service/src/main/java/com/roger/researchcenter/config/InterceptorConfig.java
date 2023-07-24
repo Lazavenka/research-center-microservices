@@ -16,8 +16,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtVerifyInterceptor)
                 .excludePathPatterns("/api/v1/test/get_users",
-                        "/api/v1/auth/sign_in",
-                        "/api/v1/auth/sign-up");
+                        "/api/v1/auth/login",
+                        "/api/v1/auth/register");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 }

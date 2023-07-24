@@ -28,7 +28,7 @@ public class EquipmentController {
         equipmentService.deleteById(id);
     }
 
-    @GetMapping(value = "/equipment")
+    @GetMapping(value = "/equipment/public")
     public ResponseEntity<List<EquipmentDto>> getAll(){
         List<EquipmentDto> equipmentGetDtoList = equipmentService.getAll();
         if(equipmentGetDtoList.isEmpty()){
@@ -38,7 +38,7 @@ public class EquipmentController {
 
     }
 
-    @GetMapping(value = "/equipment/{id}")
+    @GetMapping(value = "/equipment/public/{id}")
     public EquipmentDto getById(@PathVariable Long id){
         return equipmentService.getById(id);
     }
@@ -48,7 +48,7 @@ public class EquipmentController {
         return equipmentService.getByIdForInfo(id);
     }
 
-    @GetMapping(value = "/laboratories/{id}/equipment")
+    @GetMapping(value = "/laboratories/{id}/equipment/public")
     public List<EquipmentDto> getEquipmentByLaboratoryId(@PathVariable Long id){
         return equipmentService.getByLaboratoryId(id);
     }

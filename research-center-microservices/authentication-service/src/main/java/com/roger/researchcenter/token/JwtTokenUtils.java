@@ -35,6 +35,8 @@ public class JwtTokenUtils {
                 .toList();
         claims.put(JwtPayloadExtractor.ROLES_CLAIM, rolesList);
         claims.put(JwtPayloadExtractor.USER_ID_CLAIM, credentials.getId());
+        claims.put(JwtPayloadExtractor.USER_FIRST_NAME_CLAIM, credentials.getFirstName());
+        claims.put(JwtPayloadExtractor.USER_LAST_NAME_CLAIM, credentials.getLastName());
         Date issuedDate = new Date();
         Date expiredDate = new Date(issuedDate.getTime() + jwtLifeTime.toMillis());
 
@@ -59,7 +61,12 @@ public class JwtTokenUtils {
     public Long getId(String token) {
         return jwtPayloadExtractor.getId(token);
     }
-
+    public String getFirstName(String token){
+        return jwtPayloadExtractor.getFirstName(token);
+    }
+    public String getLastName(String token){
+        return jwtPayloadExtractor.getLastName(token);
+    }
     public void verify(String token) {
         jwtPayloadExtractor.verify(token);
     }

@@ -15,7 +15,7 @@ public class ExceptionMessageToJsonConverter {
 
     public String convertException(ApiErrorResponseStatus apiErrorResponseStatus, MessageSource messageSource, Exception exception) throws JsonProcessingException {
         ApiErrorResponse apiErrorResponse = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        apiErrorResponse.setOriginalThrowable(exception);
+        apiErrorResponse.setOriginalErrorMessage(exception);
         return mapper.writeValueAsString(apiErrorResponse);
     }
 

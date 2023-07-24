@@ -17,13 +17,13 @@ public class DepartmentController {
 
     private final DepartmentService departmentService;
 
-    @GetMapping
+    @GetMapping(value = "/public")
     public List<SlimDepartmentDto> getAll(){
 
         return departmentService.getAll();
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "/public/{id}")
     public FullDepartmentDto getById(@PathVariable Long id){
         return departmentService.getById(id);
     }

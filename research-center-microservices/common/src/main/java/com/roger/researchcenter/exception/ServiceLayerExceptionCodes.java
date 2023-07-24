@@ -25,6 +25,7 @@ public class ServiceLayerExceptionCodes {
     public static final String INVALID_REGISTRATION_TOKEN = "40020";
     public static final String INCORRECT_EMAIL = "40021";
     public static final String REGISTRATION_TOKEN_EXPIRED = "40022";
+    public static final String EQUIPMENT_TYPE_EXISTS = "40023";
 
     public static final String NOT_FOUND_ID = "40401";
     public static final String NOT_FOUND_EQUIPMENT_ID = "40402";

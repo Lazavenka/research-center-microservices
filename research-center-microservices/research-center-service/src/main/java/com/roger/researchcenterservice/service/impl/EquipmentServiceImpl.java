@@ -16,6 +16,7 @@ import com.roger.researchcenterservice.service.EquipmentService;
 import com.roger.researchcenterservice.validator.DtoFieldValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +30,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     private final EquipmentTypeRepository equipmentTypeRepository;
     private final DtoFieldValidator<EquipmentSaveDto> validator;
     private final EquipmentStructMapper mapper;
-
+    @Transactional
     @Override
     public EquipmentDto create(EquipmentSaveDto saveDto) {
         validator.validate(saveDto);
@@ -55,7 +56,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     public List<EquipmentDto> getAll() {
         return mapper.toListEquipmentGetDto(equipmentRepository.findAll());
     }
-
+    @Transactional
     @Override
     public EquipmentDto update(EquipmentSaveDto dtoEntity, Long id) {
         Equipment equipment = tryFindEquipmentById(id);

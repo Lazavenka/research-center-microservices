@@ -51,7 +51,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     public ResponseEntity<ApiErrorResponse> handleIncorrectRequestException(IncorrectRequestException ex){
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.getResponseStatusFromException(ex);
         ApiErrorResponse apiErrorResponse = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        apiErrorResponse.setOriginalThrowable(ex);
+        apiErrorResponse.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(apiErrorResponse);
     }
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     public final ResponseEntity<Object> handleCustomWebServiceException(CustomWebServiceException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.getResponseStatusFromException(ex);
         ApiErrorResponse apiErrorResponse = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        apiErrorResponse.setOriginalThrowable(ex);
+        apiErrorResponse.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(apiErrorResponse);
     }
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     public final ResponseEntity<Object> handleServiceConnectException(ConnectException ex){
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.WEB_SERVICE_UNAVAILABLE;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
@@ -78,7 +78,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.METHOD_NOT_ALLOWED_EXCEPTION;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(status).body(response);
     }
 
@@ -158,7 +158,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.BAD_REQUEST_EXCEPTION;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(status).body(response);
     }
 

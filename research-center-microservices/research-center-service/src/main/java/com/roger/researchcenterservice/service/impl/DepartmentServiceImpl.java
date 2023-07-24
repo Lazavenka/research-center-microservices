@@ -12,6 +12,7 @@ import com.roger.researchcenterservice.service.DepartmentService;
 import com.roger.researchcenterservice.validator.DtoFieldValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentStructMapper mapper;
     private DtoFieldValidator<DepartmentSaveDto> validator;
 
+    @Transactional
     @Override
     public SlimDepartmentDto create(DepartmentSaveDto saveDto) {
         validator.validate(saveDto);
@@ -41,7 +43,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         validator.validateId(id);
         return mapper.toFullDepartmentDto(tryFindDepartmentById(id));
     }
-
+    @Transactional
     @Override
     public SlimDepartmentDto update(DepartmentSaveDto updateDto, Long id) {
         validator.validateId(id);
@@ -54,7 +56,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return mapper.entityToSlimDto(departmentRepository.saveAndFlush(department));
     }
 
-    private Department tryFindDepartmentById(Long id){
+    private Department tryFindDepartmentById(Long id) {
         validator.validateId(id);
         Optional<Department> optionalDepartment = departmentRepository.findById(id);
         if (optionalDepartment.isPresent()) {

@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleBadCredentialsException(BadCredentialsException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.BAD_CREDENTIALS;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.USERNAME_NOT_FOUND;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleUnsupportedJwtException(UnsupportedJwtException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.UNSUPPORTED_JWT;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleExpiredJwtException(ExpiredJwtException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.EXPIRED_JWT;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleSignatureException(SignatureException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.JWT_SIGNATURE;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleMalformedJwtException(MalformedJwtException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.JWT_MALFORMED;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
@@ -76,7 +76,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.BAD_REQUEST_EXCEPTION;
         ApiErrorResponse response = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        response.setOriginalThrowable(ex);
+        response.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(response);
     }
@@ -85,7 +85,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleIncorrectRequestException(IncorrectRequestException ex){
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.getResponseStatusFromException(ex);
         ApiErrorResponse apiErrorResponse = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        apiErrorResponse.setOriginalThrowable(ex);
+        apiErrorResponse.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(apiErrorResponse);
     }
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler {
     public final ResponseEntity<Object> handleBadRequestException(CustomWebServiceException ex) {
         ApiErrorResponseStatus apiErrorResponseStatus = ApiErrorResponseStatus.getResponseStatusFromException(ex);
         ApiErrorResponse apiErrorResponse = ApiErrorResponse.buildResponse(apiErrorResponseStatus, messageSource);
-        apiErrorResponse.setOriginalThrowable(ex);
+        apiErrorResponse.setOriginalErrorMessage(ex);
         return ResponseEntity.status(apiErrorResponseStatus.getHttpStatus())
                 .body(apiErrorResponse);
     }

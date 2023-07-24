@@ -10,12 +10,16 @@ import java.util.List;
 public class UserCredentials implements UserDetails {
     private final Long id;
     private final String email;
+    private final String firstName;
+    private final String lastName;
     private final String password;
     private final UserState userState;
     private final List<GrantedAuthority> authorities;
 
     public UserCredentials(User user) {
         this.id = user.getId();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.userState = user.getState();
@@ -23,6 +27,14 @@ public class UserCredentials implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
                 .map(GrantedAuthority.class::cast)
                 .toList();
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override

@@ -16,13 +16,13 @@ public class AuthenticationController {
 
     private AuthenticationService authenticationService;
 
-    @PostMapping(value = "/sign-in")
+    @PostMapping(value = "/login")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
-    @PostMapping(value = "/sign-up")
+    @PostMapping(value = "/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(request));

@@ -15,6 +15,7 @@ import com.roger.researchcenterservice.service.LaboratoryService;
 import com.roger.researchcenterservice.validator.DtoFieldValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class LaboratoryServiceImpl implements LaboratoryService {
         Department department = tryFindDepartmentById(departmentId);
         return mapper.toListSlimLaboratoryDto(department.getLaboratories());
     }
-
+    @Transactional
     @Override
     public SlimLaboratoryDto create(LaboratorySaveDto laboratorySaveDto) {
         validator.validate(laboratorySaveDto);
@@ -58,7 +59,7 @@ public class LaboratoryServiceImpl implements LaboratoryService {
 
         return mapper.toSlimLaboratoryDto(laboratoryRepository.saveAndFlush(laboratory));
     }
-
+    @Transactional
     @Override
     public SlimLaboratoryDto update(LaboratorySaveDto laboratorySaveDto, Long laboratoryId) {
         validator.validate(laboratorySaveDto);

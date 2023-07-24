@@ -15,17 +15,17 @@ import java.util.List;
 public class LaboratoryController {
     private final LaboratoryService laboratoryService;
 
-    @GetMapping(value = "/laboratories")
+    @GetMapping(value = "/laboratories/public")
     public List<SlimLaboratoryDto> getAll(){
         return laboratoryService.getAll();
     }
 
-    @GetMapping(value = "/laboratories/{id}")
+    @GetMapping(value = "/laboratories/public/{id}")
     public FullLaboratoryDto getById(@PathVariable Long id){
         return laboratoryService.getById(id);
     }
 
-    @GetMapping(value = "/departments/{departmentId}/laboratories")
+    @GetMapping(value = "/departments/{departmentId}/laboratories/public")
     public List<SlimLaboratoryDto> getLaboratoriesByDepartmentId(@PathVariable Long departmentId){
         return laboratoryService.getLaboratoriesByDepartmentId(departmentId);
     }

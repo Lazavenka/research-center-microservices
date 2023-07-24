@@ -1,6 +1,7 @@
 package com.roger.researchcenterservice.service.impl;
 
 import com.roger.researchcenter.exception.CustomNotFoundException;
+import com.roger.researchcenter.exception.IncorrectRequestException;
 import com.roger.researchcenter.exception.ServiceLayerExceptionCodes;
 import com.roger.researchcenterservice.dto.EquipmentTypeSaveDto;
 import com.roger.researchcenterservice.dto.FullEquipmentTypeDto;
@@ -36,6 +37,10 @@ public class EquipmentTypeServiceImpl implements EquipmentTypeService {
     @Override
     public SlimEquipmentTypeGetDto create(EquipmentTypeSaveDto saveDto) {
         validator.validate(saveDto);
+        Optional<EquipmentType> optionalEquipmentType = equipmentTypeRepository.findEquipmentTypeByName(saveDto.getName());
+        if (optionalEquipmentType.isPresent()){
+            throw new IncorrectRequestException(ServiceLayerExceptionCodes.EQUIPMENT_TYPE_EXISTS);
+        }
         EquipmentType equipmentType = mapper.saveDtoToEntity(saveDto);
         return mapper.entityToSlimGetDto(equipmentTypeRepository.saveAndFlush(equipmentType));
     }

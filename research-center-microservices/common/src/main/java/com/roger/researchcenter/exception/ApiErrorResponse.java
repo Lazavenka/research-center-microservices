@@ -6,7 +6,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 /**
  * ApiErrorResponse class contains localized messages and error codes of thrown exception, which can be sent to view.
@@ -15,7 +14,7 @@ import java.util.Date;
 public class ApiErrorResponse {
     private String errorMessage;
     private String errorCode;
-    private String originalThrowable;
+    private String originalErrorMessage;
     private final LocalDateTime timestamp;
     public ApiErrorResponse(String errorMessage, String errorCode) {
         this.errorMessage = errorMessage;
@@ -75,11 +74,14 @@ public class ApiErrorResponse {
     }
 
     public String getOriginalErrorMessage() {
-        return originalThrowable;
+        return originalErrorMessage;
     }
 
-    public void setOriginalThrowable(Throwable originalError) {
-        this.originalThrowable = originalError.getMessage();
+    public void setOriginalErrorMessage(Throwable originalError) {
+        this.originalErrorMessage = originalError.getMessage();
+    }
+    public void setOriginalErrorMessage(String originalError) {
+        this.originalErrorMessage = originalError;
     }
 
     public String getTimestamp() {
